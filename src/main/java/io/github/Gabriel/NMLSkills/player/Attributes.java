@@ -78,8 +78,19 @@ public class Attributes {
     }
 
     public void setLevel(int level) {
+        int prevLevel = this.level;
         this.level = level;
-        setAttributePoints(level);
+        int levelDifference = this.level - prevLevel;
+
+        if (levelDifference > 0) {
+            // Player gained levels
+            int pointsToAdd = Math.max(levelDifference, 1);
+            this.attributePoints += pointsToAdd;
+        } else if (levelDifference < 0) {
+            // Player lost levels
+            int pointsToRemove = Math.abs(levelDifference); // Convert to positive
+            this.attributePoints = Math.max(this.attributePoints - pointsToRemove, 0); // Remove points but don't go below 0
+        }
     }
 
     public double getMaxEnergy() {

@@ -62,43 +62,76 @@ public class LevelUpMenu extends Menu {
     public void handleMenu(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         Attributes attributes = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes();
+        int points = attributes.getAttributePoints();
 
         switch (event.getCurrentItem().getType()) {
             case RED_CONCRETE -> {
                 event.getWhoClicked().closeInventory();
-                break;
             }
-            case APPLE -> {
-                if (points > 0) {
+            case APPLE -> { // vitality
+                if (event.isLeftClick() && points > 0) {
                     attributes.setVitality(attributes.getVitality() + 1);
                     attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                    updateAttributes();
-                    setAttributeItems();
-                    setMenuItems();
-                    player.updateInventory();
+                } else if (event.isRightClick()) {
+                    if (attributes.getVitality() != 0) {
+                        attributes.setVitality(attributes.getVitality() - 1);
+                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
+                    }
                 }
+
+                updateAttributes();
+                setAttributeItems();
+                setMenuItems();
+                player.updateInventory();
             }
-            case OAK_LOG -> {
-                if (points > 0) {
+            case OAK_LOG -> { // strength
+                if (event.isLeftClick() && points > 0) {
                     attributes.setStrength(attributes.getStrength() + 1);
                     attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                    updateAttributes();
-                    setAttributeItems();
-                    setMenuItems();
-                    player.updateInventory();
+                } else if (event.isRightClick()) {
+                    if (attributes.getStrength() != 0) {
+                        attributes.setStrength(attributes.getStrength() - 1);
+                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
+                    }
                 }
+
+                updateAttributes();
+                setAttributeItems();
+                setMenuItems();
+                player.updateInventory();
             }
-            case GOLD_INGOT -> {
-                if (points > 0) {
+            case GOLD_INGOT -> { // stamina
+                if (event.isLeftClick() && points > 0) {
                     attributes.setStamina(attributes.getStamina() + 1);
                     attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                    updateAttributes();
-                    setAttributeItems();
-                    setMenuItems();
-                    player.updateInventory();
+                } else if (event.isRightClick()) {
+                    if (attributes.getStamina() != 0) {
+                        attributes.setStamina(attributes.getStamina() - 1);
+                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
+                    }
                 }
+
+                updateAttributes();
+                setAttributeItems();
+                setMenuItems();
+                player.updateInventory();
+            }
+            case NETHER_STAR -> {
+                if (event.isShiftClick() && event.isRightClick()) {
+                    int totalPoints = attributes.getVitality() + attributes.getStrength() + attributes.getStamina();
+                    attributes.setVitality(0);
+                    attributes.setStrength(0);
+                    attributes.setStamina(0);
+                    attributes.setAttributePoints(attributes.getAttributePoints() + totalPoints);
+                }
+
+                updateAttributes();
+                setAttributeItems();
+                setMenuItems();
+                player.updateInventory();
             }
         }
+
         // Update the attributes in the player's profile
         profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
         profileManager.updateStatsFromProfile(player);
@@ -164,7 +197,12 @@ public class LevelUpMenu extends Menu {
             pointsItem.setAmount(1);
         }
         ItemMeta pMeta = pointsItem.getItemMeta();
+        ArrayList<String> pLore = new ArrayList<>();
         pMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lAttribute Points: &f" + points));
+        pLore.add(ChatColor.translateAlternateColorCodes('&', "&eLeft click to assign points!"));
+        pLore.add(ChatColor.translateAlternateColorCodes('&', "&eRight click to remove points!"));
+        pLore.add(ChatColor.translateAlternateColorCodes('&', "&eShift + Right click this item to reset all points!"));
+        pMeta.setLore(pLore);
         pointsItem.setItemMeta(pMeta);
     }
 }
