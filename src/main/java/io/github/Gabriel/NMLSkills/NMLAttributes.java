@@ -34,6 +34,7 @@ public final class NMLAttributes extends JavaPlugin {
         getCommand("resetEnergy").setExecutor(new ResetEnergyCommand(this));
         getCommand("levelUp").setExecutor(new LevelUpCommand(this));
         getCommand("setLevel").setExecutor(new SetLevelCommand(this));
+        getCommand("resetProfile").setExecutor(new ResetProfileCommand(this));
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
         getServer().getPluginManager().registerEvents(new AttributesListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);

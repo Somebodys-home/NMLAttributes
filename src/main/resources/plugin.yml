@@ -23,3 +23,6 @@ commands:
   setLevel:
     description: sets the player level
     usage: /<command> <mod>
+  resetProfile:
+    description: resets the player's profile
+    usage: /<command>

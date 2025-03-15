@@ -34,6 +34,11 @@ public class LevelUpMenu extends Menu {
         super(playerMenuUtility);
         profileManager = nmlAttributes.getProfileManager();
         attributes = profileManager.getPlayerProfile(super.playerMenuUtility.getOwner().getUniqueId()).getAttributes();
+        updateAttributes();
+        setAttributeItems();
+    }
+
+    private void updateAttributes() {
         vitality = attributes.getVitality();
         vitalityBonus = attributes.getVitalityBonus();
         strength = attributes.getStrength();
@@ -41,7 +46,6 @@ public class LevelUpMenu extends Menu {
         stamina = attributes.getStamina();
         staminaBonus = attributes.getStaminaBonus();
         points = attributes.getAttributePoints();
-        setAttributeItems();
     }
 
     @Override
@@ -65,19 +69,39 @@ public class LevelUpMenu extends Menu {
                 break;
             }
             case APPLE -> {
-                if (points != 0) {
+                if (points > 0) {
                     attributes.setVitality(attributes.getVitality() + 1);
                     attributes.setAttributePoints(attributes.getAttributePoints() - 1);
+                    updateAttributes();
+                    setAttributeItems();
+                    setMenuItems();
+                    player.updateInventory();
+                }
+            }
+            case OAK_LOG -> {
+                if (points > 0) {
+                    attributes.setStrength(attributes.getStrength() + 1);
+                    attributes.setAttributePoints(attributes.getAttributePoints() - 1);
+                    updateAttributes();
+                    setAttributeItems();
+                    setMenuItems();
+                    player.updateInventory();
+                }
+            }
+            case GOLD_INGOT -> {
+                if (points > 0) {
+                    attributes.setStamina(attributes.getStamina() + 1);
+                    attributes.setAttributePoints(attributes.getAttributePoints() - 1);
+                    updateAttributes();
+                    setAttributeItems();
+                    setMenuItems();
+                    player.updateInventory();
                 }
             }
         }
-        pointsItem.setAmount(attributes.getAttributePoints());
-        vitalityItem.setAmount(attributes.getVitality());
-        strengthItem.setAmount(attributes.getStrength());
-        staminaItem.setAmount(attributes.getStamina());
+        // Update the attributes in the player's profile
         profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
-        setAttributeItems();
-        setMenuItems();
+        profileManager.updateStatsFromProfile(player);
     }
 
     @Override
@@ -87,12 +111,10 @@ public class LevelUpMenu extends Menu {
         inventory.setItem(22, pointsItem);
         inventory.setItem(25, staminaItem);
 
-        ItemStack exit = new ItemStack(Material.RED_CONCRETE, 0);
+        ItemStack exit = new ItemStack(Material.RED_CONCRETE, 1);
         ItemMeta exitMeta = exit.getItemMeta();
-
         exitMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&4&lExit"));
         exit.setItemMeta(exitMeta);
-
         inventory.setItem(44, exit);
     }
 
