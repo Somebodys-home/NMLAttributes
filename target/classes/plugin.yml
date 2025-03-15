@@ -1,0 +1,25 @@
+name: NMLAttributes
+version: '1.0-SNAPSHOT'
+main: io.github.Gabriel.NMLSkills.NMLAttributes
+api-version: '1.21'
+authors: [ Gabriel Nicolas ]
+description: No Man's Land's stats plugin
+commands:
+  attributes:
+    description: shows a GUI of the player's attributes
+    usage: /<command>
+  setAttribute:
+    description: sets one of your attributes to whatever the mod is
+    usage: /<command> <stat> <mod>
+  useEnergy:
+    description: uses <cost> energy
+    usage: /<command> <cost>
+  resetEnergy:
+    description: resets the user's energy
+    usage: /<command>
+  levelUp:
+    description: opens up the level up menu
+    usage: /<command>
+  setLevel:
+    description: sets the player level
+    usage: /<command> <mod>
