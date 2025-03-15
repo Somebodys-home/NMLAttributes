@@ -23,9 +23,12 @@ public class AttributesMenu extends Menu {
     private double strengthBonus;
     private int stamina;
     private int staminaBonus;
+    private int level;
+
     private ItemStack vitalityItem;
     private ItemStack strengthItem;
     private ItemStack staminaItem;
+    private ItemStack levelItem;
 
     public AttributesMenu(PlayerMenuUtility playerMenuUtility, NMLAttributes nmlAttributes) {
         super(playerMenuUtility);
@@ -37,6 +40,7 @@ public class AttributesMenu extends Menu {
         strengthBonus = attributes.getStrengthBonus();
         stamina = attributes.getStamina();
         staminaBonus = attributes.getStaminaBonus();
+        level = attributes.getLevel();
 
         vitalityItem = new ItemStack(Material.APPLE, vitality);
         if (vitality == 0) {
@@ -73,6 +77,12 @@ public class AttributesMenu extends Menu {
         saLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + staminaBonus + " energy"));
         saMeta.setLore(saLore);
         staminaItem.setItemMeta(saMeta);
+
+        // points item
+        levelItem = new ItemStack(Material.NETHER_STAR, level);
+        ItemMeta lMeta = levelItem.getItemMeta();
+        lMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lLevel: &f" + level));
+        levelItem.setItemMeta(lMeta);
     }
 
     @Override
@@ -97,8 +107,9 @@ public class AttributesMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        inventory.setItem(11, vitalityItem);
-        inventory.setItem(13, strengthItem);
+        inventory.setItem(4, levelItem);
+        inventory.setItem(11, strengthItem);
+        inventory.setItem(13, vitalityItem);
         inventory.setItem(15, staminaItem);
 
         ItemStack exit = new ItemStack(Material.RED_CONCRETE, 1);

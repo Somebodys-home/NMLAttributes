@@ -1,10 +1,10 @@
 cf942050-e942-4990-a113-e3df70b289be:
   attributes:
-    level: 100
+    level: 1
     points: 0
-    vitality: 43
-    strength: 1
-    stamina: 21
-    maxEnergy: 625.0
-    currentEnergy: 625.0
-    attributePoints: 100
+    vitality: 0
+    strength: 0
+    stamina: 0
+    maxEnergy: 100.0
+    currentEnergy: 100.0
+    attributePoints: 0
