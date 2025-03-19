@@ -57,7 +57,7 @@ public class EnergyManager {
         player.setFoodLevel(hungerLevel);
     }
 
-    public void energyRegenServerTask(){
+    public void energyRegenServerTask() {
         new BukkitRunnable() {
             public void run(){
                 for (Player player : Bukkit.getOnlinePlayers()) {

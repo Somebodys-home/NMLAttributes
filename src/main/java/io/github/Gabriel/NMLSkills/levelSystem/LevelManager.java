@@ -2,6 +2,7 @@ package io.github.Gabriel.NMLSkills.levelSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class LevelManager {
@@ -25,5 +26,11 @@ public class LevelManager {
 
         player.setLevel(level);
         player.setExp((float) expercent);
+    }
+
+    public void updateLevelBarTask() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            updateLevelBar(player);
+        }
     }
 }

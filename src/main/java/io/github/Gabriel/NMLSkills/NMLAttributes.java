@@ -30,7 +30,6 @@ public final class NMLAttributes extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        levelManager = new LevelManager(this);
 
         profileConfig = new ProfileConfig(this, "profiles");
         profileConfig.loadConfig();
@@ -43,6 +42,9 @@ public final class NMLAttributes extends JavaPlugin {
 
         playerActionBar = new PlayerActionBar(this);
         playerActionBar.actionBarsTask();
+
+        levelManager = new LevelManager(this);
+        levelManager.updateLevelBarTask();
 
         getCommand("attributes").setExecutor(new AttributesCommand(this));
         getCommand("setAttribute").setExecutor(new SetAttributeCommand(this));
