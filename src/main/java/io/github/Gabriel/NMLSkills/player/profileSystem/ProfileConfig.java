@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLSkills.player;
+package io.github.Gabriel.NMLSkills.player.profileSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
 import org.bukkit.configuration.InvalidConfigurationException;

@@ -1,6 +1,7 @@
 package io.github.Gabriel.NMLSkills.commands;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLSkills.levelSystem.LevelManager;
 import io.github.Gabriel.NMLSkills.player.attributeSystem.Attributes;
 import io.github.Gabriel.NMLSkills.player.profileSystem.Profile;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
@@ -10,11 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SetLevelCommand implements CommandExecutor {
+public class SetExpCommand implements CommandExecutor {
     private ProfileManager profileManager;
+    private LevelManager levelManager;
 
-    public SetLevelCommand(NMLAttributes nmlAttributes) {
+    public SetExpCommand(NMLAttributes nmlAttributes) {
         profileManager = nmlAttributes.getProfileManager();
+        levelManager = nmlAttributes.getLevelManager();
     }
 
     @Override
@@ -24,9 +27,9 @@ public class SetLevelCommand implements CommandExecutor {
             Profile profile = new Profile(attributes);
             int mod = Integer.parseInt(args[0]);
 
-            attributes.setLevel(mod);
-            attributes.setExp(0);
-            player.sendMessage("Level set to " + mod);
+            attributes.setExp(mod);
+            levelManager.updateLevelBar(player);
+            player.sendMessage("Exp set to " + mod);
             profile.setAttributes(attributes);
             profileManager.saveAProfileToConfig(player);
             profileManager.updateStatsFromProfile(player);

@@ -1,6 +1,7 @@
-package io.github.Gabriel.NMLSkills.player;
+package io.github.Gabriel.NMLSkills.player.profileSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLSkills.player.attributeSystem.Attributes;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -38,6 +39,7 @@ public class ProfileManager {
         for (String id : config.getConfigurationSection("").getKeys(false)) {
             UUID uuid = UUID.fromString(id);
             int level = config.getInt(id + ".attributes.level");
+            int exp = config.getInt(id + ".attributes.exp");
             int attributePoints = config.getInt(id + ".attributes.attributePoints");
             int vitality = config.getInt(id + ".attributes.vitality");
             int strength = config.getInt(id + ".attributes.strength");
@@ -58,6 +60,7 @@ public class ProfileManager {
             Attributes attributes = profile.getAttributes();
 
             config.set(id + ".attributes.level", attributes.getLevel());
+            config.set(id + ".attributes.exp", attributes.getExp());
             config.set(id + ".attributes.attributePoints", attributes.getAttributePoints());
             config.set(id + ".attributes.vitality", attributes.getVitality());
             config.set(id + ".attributes.strength", attributes.getStrength());
@@ -73,6 +76,7 @@ public class ProfileManager {
         Attributes attributes = profile.getAttributes();
 
         config.set(id + ".attributes.level", attributes.getLevel());
+        config.set(id + ".attributes.exp", attributes.getExp());
         config.set(id + ".attributes.attributePoints", attributes.getAttributePoints());
         config.set(id + ".attributes.vitality", attributes.getVitality());
         config.set(id + ".attributes.strength", attributes.getStrength());

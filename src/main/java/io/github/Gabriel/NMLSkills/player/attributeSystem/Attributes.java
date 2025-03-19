@@ -1,8 +1,9 @@
-package io.github.Gabriel.NMLSkills.player;
+package io.github.Gabriel.NMLSkills.player.attributeSystem;
 
 public class Attributes {
     // CORE STATS: stats that get saved to the file
     private int level;
+    private int exp;
     private int attributePoints;
     private int vitality;
     private int strength;
@@ -17,6 +18,7 @@ public class Attributes {
 
     public Attributes(int level, int attributePoints, int vitality, int strength, int stamina, int maxEnergy, int currentEnergy) {
         this.level = level;
+        exp = 0;
         this.vitality = vitality;
         this.strength = strength;
         this.stamina = stamina;
@@ -111,5 +113,13 @@ public class Attributes {
 
     public void setAttributePoints(int attributePoints) {
         this.attributePoints = attributePoints;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 }

@@ -1,4 +1,6 @@
-package io.github.Gabriel.NMLSkills.player;
+package io.github.Gabriel.NMLSkills.player.profileSystem;
+
+import io.github.Gabriel.NMLSkills.player.attributeSystem.Attributes;
 
 public class Profile {
     private Attributes attributes;

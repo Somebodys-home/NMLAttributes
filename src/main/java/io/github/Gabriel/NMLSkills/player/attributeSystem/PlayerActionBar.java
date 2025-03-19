@@ -1,6 +1,7 @@
-package io.github.Gabriel.NMLSkills.player;
+package io.github.Gabriel.NMLSkills.player.attributeSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -8,13 +9,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.lang.reflect.Array;
-
-public class PlayerActionBars {
+public class PlayerActionBar {
     private NMLAttributes nmlAttributes;
     private ProfileManager profileManager;
 
-    public PlayerActionBars(NMLAttributes nmlAttributes) {
+    public PlayerActionBar(NMLAttributes nmlAttributes) {
         this.nmlAttributes = nmlAttributes;
         profileManager = this.nmlAttributes.getProfileManager();
     }

@@ -1,9 +1,9 @@
 package io.github.Gabriel.NMLSkills.commands;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.player.Attributes;
-import io.github.Gabriel.NMLSkills.player.Profile;
-import io.github.Gabriel.NMLSkills.player.ProfileManager;
+import io.github.Gabriel.NMLSkills.player.attributeSystem.Attributes;
+import io.github.Gabriel.NMLSkills.player.profileSystem.Profile;
+import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
