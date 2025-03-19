@@ -1,39 +1,45 @@
 package io.github.Gabriel.NMLSkills.levelSystem;
 
-import org.bukkit.ChatColor;
+import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
+import org.bukkit.event.player.PlayerLevelChangeEvent;
 
 public class LevelingListener implements Listener {
-    private static final int XP_REQUIRED_PER_LEVEL = 100;
+    private ProfileManager profileManager;
+    private int xpForLevelUp;
 
-    @EventHandler
-    public void onEXPGain(PlayerExpChangeEvent event) {
-        Player player = event.getPlayer();
-
-        // Get the player's current total XP
-        int currentTotalXP = getTotalXP(player);
-
-        // Calculate the player's current level based on the fixed XP requirement
-        int currentLevel = currentTotalXP / XP_REQUIRED_PER_LEVEL;
-
-        // Calculate the remaining XP needed for the next level
-        int remainingXP = currentTotalXP % XP_REQUIRED_PER_LEVEL;
-
-        // Update the player's level and experience bar
-        player.setLevel(currentLevel);
-        player.setExp((float) remainingXP / XP_REQUIRED_PER_LEVEL);
-
-        // Optional: Send a message to the player
-        player.sendMessage(ChatColor.GREEN + "You need " + (XP_REQUIRED_PER_LEVEL - remainingXP) + " more XP to level up!");
+    public LevelingListener(NMLAttributes nmlAttributes) {
+        profileManager = nmlAttributes.getProfileManager();
     }
 
-    // Helper method to calculate the player's total XP
+    @EventHandler
+    public void onEXPChange(PlayerExpChangeEvent event) {
+        Player player = event.getPlayer();
+        xpForLevelUp = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getExp2NextLevel();
+        int currentTotalXP = getTotalXP(player);
+        int currentLevel = currentTotalXP / xpForLevelUp;
+        int remainingXP = currentTotalXP % xpForLevelUp;
+
+        player.setLevel(currentLevel);
+        player.setExp((float) remainingXP / xpForLevelUp);
+    }
+
+    @EventHandler
+    public void onLevelChange(PlayerLevelChangeEvent event) {
+        if (event.getNewLevel() != 0) {
+            profileManager.getPlayerProfile(event.getPlayer().getUniqueId()).getAttributes().setLevel(event.getNewLevel());
+        } else {
+            profileManager.getPlayerProfile(event.getPlayer().getUniqueId()).getAttributes().setLevel(1);
+        }
+    }
+
     private int getTotalXP(Player player) {
         int level = player.getLevel();
         float progress = player.getExp();
-        return (level * XP_REQUIRED_PER_LEVEL) + (int) (progress * XP_REQUIRED_PER_LEVEL);
+        return (level * xpForLevelUp) + (int) (progress * xpForLevelUp);
     }
 }

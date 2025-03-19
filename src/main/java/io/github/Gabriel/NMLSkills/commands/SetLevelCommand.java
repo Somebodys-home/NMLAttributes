@@ -24,8 +24,7 @@ public class SetLevelCommand implements CommandExecutor {
             Profile profile = new Profile(attributes);
             int mod = Integer.parseInt(args[0]);
 
-            attributes.setLevel(mod);
-            attributes.setExp(0);
+            player.setLevel(mod);
             player.sendMessage("Level set to " + mod);
             profile.setAttributes(attributes);
             profileManager.saveAProfileToConfig(player);

@@ -23,6 +23,8 @@ public class AttributesMenu extends Menu {
     private int stamina;
     private int staminaBonus;
     private int level;
+    private int exp;
+    private int exp4LevelUp;
 
     private ItemStack vitalityItem;
     private ItemStack strengthItem;
@@ -40,7 +42,20 @@ public class AttributesMenu extends Menu {
         stamina = attributes.getStamina();
         staminaBonus = attributes.getStaminaBonus();
         level = attributes.getLevel();
+        exp = attributes.getExp();
+        exp4LevelUp = attributes.getExp2NextLevel();
 
+        // points item
+        levelItem = new ItemStack(Material.NETHER_STAR, level);
+        ArrayList<String> pLore = new ArrayList<>();
+        ItemMeta pMeta = levelItem.getItemMeta();
+        pMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lLevel: &f" + level));
+        pLore.add(ChatColor.translateAlternateColorCodes('&', "&b&lProgress: &f" + exp + " / " + exp4LevelUp + " exp"));
+        pMeta.setLore(pLore);
+        levelItem.setItemMeta(pMeta);
+        levelItem.setItemMeta(pMeta);
+
+        // vitality item
         vitalityItem = new ItemStack(Material.APPLE, vitality);
         if (vitality == 0) {
             vitalityItem.setAmount(1);
@@ -53,6 +68,7 @@ public class AttributesMenu extends Menu {
         vMeta.setLore(vLore);
         vitalityItem.setItemMeta(vMeta);
 
+        // strength item
         strengthItem = new ItemStack(Material.OAK_LOG, strength);
         if (strength == 0) {
             strengthItem.setAmount(1);
@@ -65,6 +81,7 @@ public class AttributesMenu extends Menu {
         sMeta.setLore(sLore);
         strengthItem.setItemMeta(sMeta);
 
+        // stamina item
         staminaItem = new ItemStack(Material.GOLD_INGOT, stamina);
         if (stamina == 0) {
             staminaItem.setAmount(1);
@@ -77,11 +94,7 @@ public class AttributesMenu extends Menu {
         saMeta.setLore(saLore);
         staminaItem.setItemMeta(saMeta);
 
-        // points item
-        levelItem = new ItemStack(Material.NETHER_STAR, level);
-        ItemMeta lMeta = levelItem.getItemMeta();
-        lMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lLevel: &f" + level));
-        levelItem.setItemMeta(lMeta);
+
     }
 
     @Override

@@ -4,6 +4,7 @@ public class Attributes {
     // CORE STATS: stats that get saved to the file
     private int level;
     private int exp;
+    private int exp2NextLevel;
     private int attributePoints;
     private int vitality;
     private int strength;
@@ -19,11 +20,12 @@ public class Attributes {
     public Attributes(int level, int attributePoints, int vitality, int strength, int stamina, int maxEnergy, int currentEnergy) {
         this.level = level;
         exp = 0;
+        exp2NextLevel = 100;
         this.vitality = vitality;
         this.strength = strength;
         this.stamina = stamina;
 
-        staminaBonus = 10 * stamina; // increases max energy per level
+        staminaBonus = 15 * stamina; // increases max energy per level
         vitalityBonus = this.vitality; // increases max health per level
         strengthBonus = 3 * this.strength; // % damage increase per level
         this.maxEnergy = maxEnergy + staminaBonus;
@@ -121,5 +123,13 @@ public class Attributes {
 
     public void setExp(int exp) {
         this.exp = exp;
+    }
+
+    public int getExp2NextLevel() {
+        return exp2NextLevel;
+    }
+
+    public void setExp2NextLevel(int exp2NextLevel) {
+        this.exp2NextLevel = exp2NextLevel;
     }
 }

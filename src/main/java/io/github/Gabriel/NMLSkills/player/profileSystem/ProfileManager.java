@@ -61,6 +61,7 @@ public class ProfileManager {
 
             config.set(id + ".attributes.level", attributes.getLevel());
             config.set(id + ".attributes.exp", attributes.getExp());
+            config.set(id + ".attributes.exp2NextLevel", attributes.getExp2NextLevel());
             config.set(id + ".attributes.attributePoints", attributes.getAttributePoints());
             config.set(id + ".attributes.vitality", attributes.getVitality());
             config.set(id + ".attributes.strength", attributes.getStrength());
@@ -77,6 +78,7 @@ public class ProfileManager {
 
         config.set(id + ".attributes.level", attributes.getLevel());
         config.set(id + ".attributes.exp", attributes.getExp());
+        config.set(id + ".attributes.exp2NextLevel", attributes.getExp2NextLevel());
         config.set(id + ".attributes.attributePoints", attributes.getAttributePoints());
         config.set(id + ".attributes.vitality", attributes.getVitality());
         config.set(id + ".attributes.strength", attributes.getStrength());
