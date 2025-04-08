@@ -1,8 +1,8 @@
 package io.github.Gabriel.NMLSkills.commands;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.menus.AttributesMenu;
 import io.github.Gabriel.NMLSkills.menus.LevelUpMenu;
+import io.github.Gabriel.menuSystem.MenuSystem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ public class LevelUpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
-            new LevelUpMenu(NMLAttributes.getPlayerMenuUtility(player), nmlAttributes).open();
+            new LevelUpMenu(MenuSystem.getPlayerMenuUtility(player), nmlAttributes).open();
         }
         return true;
     }

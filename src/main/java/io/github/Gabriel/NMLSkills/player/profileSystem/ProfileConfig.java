@@ -6,8 +6,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
-import static jdk.internal.org.jline.utils.Log.error;
-
 
 public class ProfileConfig {
     private NMLAttributes nmlAttributes;
@@ -28,7 +26,6 @@ public class ProfileConfig {
         } try {
             config.load(file);
         } catch (IOException | InvalidConfigurationException exception) {
-            error("Error while loading profile config! (@_@)");
             exception.printStackTrace();
         }
     }
@@ -37,7 +34,6 @@ public class ProfileConfig {
         try {
             config.save(file);
         } catch (IOException exception) {
-            error("Error while loading profile config! (@_@)");
             exception.printStackTrace();
         }
     }

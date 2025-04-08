@@ -5,24 +5,19 @@ import io.github.Gabriel.NMLSkills.energySystem.EnergyListener;
 import io.github.Gabriel.NMLSkills.energySystem.EnergyManager;
 import io.github.Gabriel.NMLSkills.levelSystem.LevelManager;
 import io.github.Gabriel.NMLSkills.levelSystem.LevelingListener;
-import io.github.Gabriel.NMLSkills.menus.MenuSystem.MenuListener;
-import io.github.Gabriel.NMLSkills.menus.MenuSystem.PlayerMenuUtility;
 import io.github.Gabriel.NMLSkills.player.attributeSystem.AttributesListener;
 import io.github.Gabriel.NMLSkills.player.attributeSystem.PlayerActionBar;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileConfig;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileListener;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
-import org.bukkit.entity.Player;
+import io.github.Gabriel.menuSystem.MenuListener;
+import io.github.Gabriel.menuSystem.MenuSystem;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.logging.Level;
 
 public final class NMLAttributes extends JavaPlugin {
     private NMLAttributes instance;
     private ProfileManager profileManager;
     private ProfileConfig profileConfig;
-    private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     private EnergyManager energyManager;
     private PlayerActionBar playerActionBar;
     private LevelManager levelManager;
@@ -51,15 +46,15 @@ public final class NMLAttributes extends JavaPlugin {
         getCommand("useEnergy").setExecutor(new UseEnergyCommand(this));
         getCommand("resetEnergy").setExecutor(new ResetEnergyCommand(this));
         getCommand("levelUp").setExecutor(new LevelUpCommand(this));
-        getCommand("setLevel").setExecutor(new SetLevelCommand(this));
+        getCommand("setLevel").setExecutor(new SetLevelCommand());
         getCommand("resetProfile").setExecutor(new ResetProfileCommand(this));
         getCommand("setExp").setExecutor(new SetExpCommand(this));
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
         getServer().getPluginManager().registerEvents(new AttributesListener(this), this);
-        getServer().getPluginManager().registerEvents(new MenuListener(), this);
         getServer().getPluginManager().registerEvents(new EnergyListener(this), this);
         getServer().getPluginManager().registerEvents(new LevelingListener(this), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
     }
 
     @Override
@@ -87,17 +82,5 @@ public final class NMLAttributes extends JavaPlugin {
 
     public LevelManager getLevelManager() {
         return levelManager;
-    }
-
-    public static PlayerMenuUtility getPlayerMenuUtility(Player player) {
-        PlayerMenuUtility playerMenuUtility;
-
-        if (playerMenuUtilityMap.containsKey(player)) {
-            return playerMenuUtilityMap.get(player);
-        } else {
-            playerMenuUtility = new PlayerMenuUtility(player);
-            playerMenuUtilityMap.put(player, playerMenuUtility);
-            return playerMenuUtility;
-        }
     }
 }

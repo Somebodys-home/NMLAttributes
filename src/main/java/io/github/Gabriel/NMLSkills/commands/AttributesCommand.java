@@ -2,7 +2,7 @@ package io.github.Gabriel.NMLSkills.commands;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
 import io.github.Gabriel.NMLSkills.menus.AttributesMenu;
-import io.github.Gabriel.NMLSkills.menus.MenuSystem.PlayerMenuUtility;
+import io.github.Gabriel.menuSystem.MenuSystem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,10 +17,11 @@ public class AttributesCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player player) {
-            new AttributesMenu(NMLAttributes.getPlayerMenuUtility(player), nmlAttributes).open();
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (commandSender instanceof Player player) {
+            new AttributesMenu(MenuSystem.getPlayerMenuUtility(player), nmlAttributes).open();
         }
+
         return true;
     }
 }

@@ -1,10 +1,10 @@
 package io.github.Gabriel.NMLSkills.menus;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.menus.MenuSystem.Menu;
-import io.github.Gabriel.NMLSkills.menus.MenuSystem.PlayerMenuUtility;
 import io.github.Gabriel.NMLSkills.player.attributeSystem.Attributes;
 import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
+import io.github.Gabriel.menuSystem.Menu;
+import io.github.Gabriel.menuSystem.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;

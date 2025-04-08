@@ -33,4 +33,8 @@ public class LevelManager {
             updateLevelBar(player);
         }
     }
+
+    public void levelUpMesssage(Player player) {
+        // todo: finish this
+    }
 }
