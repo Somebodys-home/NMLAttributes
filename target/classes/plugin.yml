@@ -3,7 +3,7 @@ version: '1.0-SNAPSHOT'
 main: io.github.Gabriel.NMLSkills.NMLAttributes
 api-version: '1.21'
 authors: [ Gabriel Nicolas ]
-description: No Man's Land's stats plugin
+description: Plugin for the attributes of the No Man's Land server
 commands:
   attributes:
     description: shows a GUI of the player's attributes

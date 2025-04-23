@@ -1,7 +1,7 @@
 package io.github.Gabriel.NMLSkills.levelSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

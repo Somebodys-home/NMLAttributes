@@ -1,17 +1,21 @@
 package io.github.Gabriel.NMLSkills;
 
-import io.github.Gabriel.NMLSkills.commands.*;
+import io.github.Gabriel.NMLSkills.attributeSystem.AttributesCommand;
+import io.github.Gabriel.NMLSkills.attributeSystem.SetAttributeCommand;
 import io.github.Gabriel.NMLSkills.energySystem.EnergyListener;
 import io.github.Gabriel.NMLSkills.energySystem.EnergyManager;
-import io.github.Gabriel.NMLSkills.levelSystem.LevelManager;
-import io.github.Gabriel.NMLSkills.levelSystem.LevelingListener;
-import io.github.Gabriel.NMLSkills.player.attributeSystem.AttributesListener;
-import io.github.Gabriel.NMLSkills.player.attributeSystem.PlayerActionBar;
-import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileConfig;
-import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileListener;
-import io.github.Gabriel.NMLSkills.player.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLSkills.energySystem.ResetEnergyCommand;
+import io.github.Gabriel.NMLSkills.energySystem.UseEnergyCommand;
+import io.github.Gabriel.NMLSkills.levelSystem.*;
+import io.github.Gabriel.NMLSkills.attributeSystem.AttributesListener;
+import io.github.Gabriel.NMLSkills.attributeSystem.PlayerActionBar;
+import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthListener;
+import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthManager;
+import io.github.Gabriel.NMLSkills.profileSystem.ProfileConfig;
+import io.github.Gabriel.NMLSkills.profileSystem.ProfileListener;
+import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLSkills.profileSystem.ResetProfileCommand;
 import io.github.Gabriel.menuSystem.MenuListener;
-import io.github.Gabriel.menuSystem.MenuSystem;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NMLAttributes extends JavaPlugin {
@@ -21,6 +25,7 @@ public final class NMLAttributes extends JavaPlugin {
     private EnergyManager energyManager;
     private PlayerActionBar playerActionBar;
     private LevelManager levelManager;
+    private OverhealthManager overhealthManager;
 
     @Override
     public void onEnable() {
@@ -41,6 +46,9 @@ public final class NMLAttributes extends JavaPlugin {
         levelManager = new LevelManager(this);
         levelManager.updateLevelBarTask();
 
+        overhealthManager = new OverhealthManager(this);
+        overhealthManager.startOverhealthTracker();
+
         getCommand("attributes").setExecutor(new AttributesCommand(this));
         getCommand("setAttribute").setExecutor(new SetAttributeCommand(this));
         getCommand("useEnergy").setExecutor(new UseEnergyCommand(this));
@@ -51,6 +59,7 @@ public final class NMLAttributes extends JavaPlugin {
         getCommand("setExp").setExecutor(new SetExpCommand(this));
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
+        getServer().getPluginManager().registerEvents(new OverhealthListener(this), this);
         getServer().getPluginManager().registerEvents(new AttributesListener(this), this);
         getServer().getPluginManager().registerEvents(new EnergyListener(this), this);
         getServer().getPluginManager().registerEvents(new LevelingListener(this), this);
@@ -62,6 +71,7 @@ public final class NMLAttributes extends JavaPlugin {
         // DO NOT CHANGE THE ORDER OF THIS, IT WILL BREAK
         profileManager.saveProfilesToConfig();
         profileConfig.saveConfig();
+        overhealthManager.stopOverhealthTracker();
     }
 
     public NMLAttributes getInstance() {
@@ -82,5 +92,9 @@ public final class NMLAttributes extends JavaPlugin {
 
     public LevelManager getLevelManager() {
         return levelManager;
+    }
+
+    public OverhealthManager getOverhealthManager() {
+        return overhealthManager;
     }
 }
