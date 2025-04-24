@@ -25,4 +25,12 @@ public class OverhealthListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         plugin.getOverhealthManager().add2OverhealthMap(event.getPlayer());
     }
+
+    @EventHandler
+    public void overHealth(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        double overhealthBonus = plugin.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getOverhealthBonus();
+
+        player.setAbsorptionAmount(overhealthBonus);
+    }
 }

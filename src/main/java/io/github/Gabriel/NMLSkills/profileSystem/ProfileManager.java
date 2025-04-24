@@ -23,7 +23,7 @@ public class ProfileManager {
     }
 
     public Profile createnewProfile(Player player) {
-        Attributes attributes = new Attributes(1, 0, 0,0, 0, 0, 100, 100);
+        Attributes attributes = new Attributes(1, 0, 0,0, 0, 0, 100, 100, 0, 0);
         Profile profile = new Profile(attributes);
 
         profileMap.put(player.getUniqueId(), profile);
@@ -45,9 +45,11 @@ public class ProfileManager {
             int strength = config.getInt(id + ".attributes.strength");
             int arcane = config.getInt(id + ".attributes.arcane");
             int stamina = config.getInt(id + ".attributes.stamina");
-            int maxEnergy = config.getInt(id + ".attributes.maxEnergy");
             int currentEnergy = config.getInt(id + ".attributes.currentEnergy");
-            Attributes attributes = new Attributes(level, attributePoints, vitality, strength, arcane, stamina, maxEnergy, currentEnergy);
+            int maxEnergy = config.getInt(id + ".attributes.maxEnergy");
+            int currentOverhealth = config.getInt(id + ".attributes.currentOverhealth");
+            int maxOverhealth = config.getInt(id + ".attributes.maxOverhealth");
+            Attributes attributes = new Attributes(level, attributePoints, vitality, strength, arcane, stamina, currentEnergy, maxEnergy, currentOverhealth, maxOverhealth);
             Profile profile = new Profile(attributes);
 
             profileMap.put(uuid, profile);
@@ -68,8 +70,10 @@ public class ProfileManager {
             config.set(id + ".attributes.strength", attributes.getStrength());
             config.set(id + ".attributes.arcane", attributes.getArcane());
             config.set(id + ".attributes.stamina", attributes.getStamina());
-            config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
             config.set(id + ".attributes.currentEnergy", attributes.getCurrentEnergy());
+            config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
+            config.set(id + ".attributes.currentOverhealth", attributes.getCurrentOverhealth());
+            config.set(id + ".attributes.maxOverhealth", attributes.getMaxEnergy());
         }
     }
 
@@ -86,8 +90,10 @@ public class ProfileManager {
         config.set(id + ".attributes.strength", attributes.getStrength());
         config.set(id + ".attributes.arcane", attributes.getArcane());
         config.set(id + ".attributes.stamina", attributes.getStamina());
-        config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
         config.set(id + ".attributes.currentEnergy", attributes.getCurrentEnergy());
+        config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
+        config.set(id + ".attributes.currentOverhealth", attributes.getCurrentOverhealth());
+        config.set(id + ".attributes.maxOverhealth", attributes.getMaxEnergy());
     }
 
     public void updateStatsFromProfile(Player player) { // method given this name for future-proofing

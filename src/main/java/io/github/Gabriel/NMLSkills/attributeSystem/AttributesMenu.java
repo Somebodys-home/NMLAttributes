@@ -16,13 +16,13 @@ public class AttributesMenu extends Menu {
     private ProfileManager profileManager;
     private Attributes attributes;
     private int vitality;
-    private int vitalityBonus;
+    private double vitalityBonus;
     private int strength;
     private double strengthBonus;
     private int arcane;
-    private double arcaneBonus;
+    private double overhealthBonus;
     private int stamina;
-    private int staminaBonus;
+    private double staminaBonus;
     private int level;
     private int exp;
     private int exp4LevelUp;
@@ -37,15 +37,17 @@ public class AttributesMenu extends Menu {
         super(playerMenuUtility);
         profileManager = nmlAttributes.getProfileManager();
         attributes = profileManager.getPlayerProfile(super.playerMenuUtility.getOwner().getUniqueId()).getAttributes();
+        level = attributes.getLevel();
+        exp = attributes.getExp();
+        exp4LevelUp = attributes.getExp2NextLevel();
         vitality = attributes.getVitality();
         vitalityBonus = attributes.getVitalityBonus();
         strength = attributes.getStrength();
         strengthBonus = attributes.getStrengthBonus();
         stamina = attributes.getStamina();
         staminaBonus = attributes.getEnergyBonus();
-        level = attributes.getLevel();
-        exp = attributes.getExp();
-        exp4LevelUp = attributes.getExp2NextLevel();
+        arcane = attributes.getArcane();
+        overhealthBonus = attributes.getOverhealthBonus();
 
         // points item
         levelItem = new ItemStack(Material.NETHER_STAR, level);
@@ -66,7 +68,7 @@ public class AttributesMenu extends Menu {
         ArrayList<String> vLore = new ArrayList<>();
         vMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&lVitality"));
         vLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + vitality));
-        vLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + vitalityBonus + " health"));
+        vLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + (int) vitalityBonus + " health"));
         vMeta.setLore(vLore);
         vitalityItem.setItemMeta(vMeta);
 
@@ -79,7 +81,7 @@ public class AttributesMenu extends Menu {
         ArrayList<String> sLore = new ArrayList<>();
         sMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&2&lStrength"));
         sLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + strength));
-        sLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + strengthBonus + "% melee damage"));
+        sLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + (int) strengthBonus + "% melee damage"));
         sMeta.setLore(sLore);
         strengthItem.setItemMeta(sMeta);
 
@@ -92,7 +94,7 @@ public class AttributesMenu extends Menu {
         ArrayList<String> aLore = new ArrayList<>();
         aMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9&lArcane"));
         aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + arcane));
-        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + arcane + "% overhealth"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + "overhealth"));
         aMeta.setLore(aLore);
         arcaneItem.setItemMeta(aMeta);
 
@@ -130,9 +132,9 @@ public class AttributesMenu extends Menu {
     @Override
     public void setMenuItems() {
         inventory.setItem(4, levelItem);
-        inventory.setItem(11, strengthItem);
-        inventory.setItem(13, vitalityItem);
-        inventory.setItem(15, staminaItem);
+        inventory.setItem(10, strengthItem);
+        inventory.setItem(12, vitalityItem);
+        inventory.setItem(14, staminaItem);
         inventory.setItem(16, arcaneItem);
 
         ItemStack exit = new ItemStack(Material.RED_CONCRETE, 1);

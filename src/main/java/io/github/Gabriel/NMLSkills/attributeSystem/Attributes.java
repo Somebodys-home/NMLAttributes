@@ -1,7 +1,7 @@
 package io.github.Gabriel.NMLSkills.attributeSystem;
 
 public class Attributes {
-    // CORE STATS: stats that get saved to the file
+    // CORE STATS: stats that get saved to the profiles.yml
     private int level;
     private int exp;
     private int exp2NextLevel;
@@ -12,15 +12,23 @@ public class Attributes {
     private int stamina;
     private double maxEnergy;
     private double currentEnergy;
+    private double currentOverhealth;
+    private double maxOverhealth;
 
     // SUB STATS: stats that are just from calculations
-    private int vitalityBonus;
+    private double vitalityBonus;
     private double strengthBonus;
-    private int energyBonus; // increases max energy
+    private double energyBonus; // increases max energy
     private double overhealthBonus;
 
 
-    public Attributes(int level, int attributePoints, int vitality, int strength, int arcane, int stamina, int maxEnergy, int currentEnergy) {
+    public Attributes(int level, int attributePoints,
+                      int vitality,
+                      int strength,
+                      int arcane,
+                      int stamina,
+                      double currentEnergy, double maxEnergy,
+                      double currentOverhealth, double maxOverhealth) {
         this.level = level;
         exp = 0;
         exp2NextLevel = 100;
@@ -29,12 +37,15 @@ public class Attributes {
         this.stamina = stamina;
         this.arcane = arcane;
 
-        energyBonus = 15 * stamina; // increases max energy per level
-        vitalityBonus = this.vitality; // increases max health per level
-        strengthBonus = 3 * this.strength; // % damage increase per level
-        this.maxEnergy = maxEnergy + energyBonus;
+        energyBonus = 15 * this.stamina; // increases max energy per stamina level
+        vitalityBonus = this.vitality; // increases max health per vitality level
+        strengthBonus = 3 * this.strength; // increases melee damage increase per strength level
+        overhealthBonus = 5 * this.arcane; // increases overhealth per arcane level
         this.currentEnergy = currentEnergy;
+        this.maxEnergy = maxEnergy + energyBonus;
         this.attributePoints = attributePoints;
+        this.currentOverhealth = currentOverhealth;
+        this.maxOverhealth = maxOverhealth + overhealthBonus;
     }
 
     // level
@@ -93,7 +104,7 @@ public class Attributes {
         vitalityBonus = this.vitality;
     }
 
-    public int getVitalityBonus() {
+    public double getVitalityBonus() {
         return vitalityBonus;
     }
 
@@ -118,7 +129,24 @@ public class Attributes {
 
     public void setArcane(int arcane) {
         this.arcane = arcane;
+
+        overhealthBonus = 5 * this.arcane;
+        maxOverhealth = 50 + overhealthBonus;
+
+        if (currentOverhealth > maxOverhealth) {
+            currentOverhealth = maxOverhealth;
+        }
     }
+
+    public double getMaxOverhealth() {
+        return maxOverhealth;
+    }
+
+    public double getCurrentOverhealth() {
+        return currentOverhealth;
+    }
+
+    public void setCurrentOverhealth(double currentOverhealth) {}
 
     public double getOverhealthBonus() {
         return overhealthBonus;
@@ -139,7 +167,7 @@ public class Attributes {
         }
     }
 
-    public int getEnergyBonus() {
+    public double getEnergyBonus() {
         return energyBonus;
     }
 

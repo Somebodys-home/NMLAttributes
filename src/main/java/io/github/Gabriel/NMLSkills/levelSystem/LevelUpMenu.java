@@ -13,39 +13,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LevelUpMenu extends Menu {
     private ProfileManager profileManager;
     private Attributes attributes;
+    private int points;
     private int vitality;
     private int vitalityBonus;
     private int strength;
     private double strengthBonus;
     private int stamina;
     private int staminaBonus;
-    private int points;
+    private int arcane;
+    private int overhealthBonus;
 
     private ItemStack pointsItem;
     private ItemStack vitalityItem;
     private ItemStack strengthItem;
     private ItemStack staminaItem;
+    private ItemStack arcaneItem;
 
     public LevelUpMenu(PlayerMenuUtility playerMenuUtility, NMLAttributes nmlAttributes) {
         super(playerMenuUtility);
         profileManager = nmlAttributes.getProfileManager();
         attributes = profileManager.getPlayerProfile(super.playerMenuUtility.getOwner().getUniqueId()).getAttributes();
         updateAttributes();
-        setAttributeItems();
-    }
-
-    private void updateAttributes() {
-        vitality = attributes.getVitality();
-        vitalityBonus = attributes.getVitalityBonus();
-        strength = attributes.getStrength();
-        strengthBonus = attributes.getStrengthBonus();
-        stamina = attributes.getStamina();
-        staminaBonus = attributes.getEnergyBonus();
-        points = attributes.getAttributePoints();
+        updateAttributeItems();
     }
 
     @Override
@@ -61,78 +55,69 @@ public class LevelUpMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        Attributes attributes = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes();
         int points = attributes.getAttributePoints();
 
-        switch (event.getCurrentItem().getType()) {
+        switch (Objects.requireNonNull(event.getCurrentItem()).getType()) {
             case RED_CONCRETE -> {
-                event.getWhoClicked().closeInventory();
+                player.closeInventory();
+                return;
             }
-            case APPLE -> { // vitality
+
+            case APPLE -> {
                 if (event.isLeftClick() && points > 0) {
                     attributes.setVitality(attributes.getVitality() + 1);
-                    attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                } else if (event.isRightClick()) {
-                    if (attributes.getVitality() != 0) {
-                        attributes.setVitality(attributes.getVitality() - 1);
-                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
-                    }
+                    attributes.setAttributePoints(points - 1);
+                } else if (event.isRightClick() && attributes.getVitality() > 0) {
+                    attributes.setVitality(attributes.getVitality() - 1);
+                    attributes.setAttributePoints(points + 1);
                 }
-
-                updateAttributes();
-                setAttributeItems();
-                setMenuItems();
-                player.updateInventory();
             }
-            case OAK_LOG -> { // strength
+
+            case OAK_LOG -> {
                 if (event.isLeftClick() && points > 0) {
                     attributes.setStrength(attributes.getStrength() + 1);
-                    attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                } else if (event.isRightClick()) {
-                    if (attributes.getStrength() != 0) {
-                        attributes.setStrength(attributes.getStrength() - 1);
-                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
-                    }
+                    attributes.setAttributePoints(points - 1);
+                } else if (event.isRightClick() && attributes.getStrength() > 0) {
+                    attributes.setStrength(attributes.getStrength() - 1);
+                    attributes.setAttributePoints(points + 1);
                 }
-
-                updateAttributes();
-                setAttributeItems();
-                setMenuItems();
-                player.updateInventory();
             }
-            case GOLD_INGOT -> { // stamina
+
+            case ENCHANTED_BOOK -> {
+                if (event.isLeftClick() && points > 0) {
+                    attributes.setArcane(attributes.getArcane() + 1);
+                    attributes.setAttributePoints(points - 1);
+                } else if (event.isRightClick() && attributes.getArcane() > 0) {
+                    attributes.setArcane(attributes.getArcane() - 1);
+                    attributes.setAttributePoints(points + 1);
+                }
+            }
+
+            case GOLD_INGOT -> {
                 if (event.isLeftClick() && points > 0) {
                     attributes.setStamina(attributes.getStamina() + 1);
-                    attributes.setAttributePoints(attributes.getAttributePoints() - 1);
-                } else if (event.isRightClick()) {
-                    if (attributes.getStamina() != 0) {
-                        attributes.setStamina(attributes.getStamina() - 1);
-                        attributes.setAttributePoints(attributes.getAttributePoints() + 1);
-                    }
+                    attributes.setAttributePoints(points - 1);
+                } else if (event.isRightClick() && attributes.getStamina() > 0) {
+                    attributes.setStamina(attributes.getStamina() - 1);
+                    attributes.setAttributePoints(points + 1);
                 }
-
-                updateAttributes();
-                setAttributeItems();
-                setMenuItems();
-                player.updateInventory();
             }
+
             case NETHER_STAR -> {
                 if (event.isShiftClick() && event.isRightClick()) {
-                    int totalPoints = attributes.getVitality() + attributes.getStrength() + attributes.getStamina();
+                    int totalPoints = attributes.getVitality() + attributes.getStrength() + attributes.getStamina() + attributes.getArcane();
                     attributes.setVitality(0);
                     attributes.setStrength(0);
                     attributes.setStamina(0);
+                    attributes.setArcane(0);
                     attributes.setAttributePoints(attributes.getAttributePoints() + totalPoints);
                 }
-
-                updateAttributes();
-                setAttributeItems();
-                setMenuItems();
-                player.updateInventory();
             }
         }
 
-        // Update the attributes in the player's profile
+        updateAttributes();
+        updateAttributeItems();
+        setMenuItems();
         profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
         profileManager.updateStatsFromProfile(player);
     }
@@ -143,6 +128,7 @@ public class LevelUpMenu extends Menu {
         inventory.setItem(19, strengthItem);
         inventory.setItem(22, pointsItem);
         inventory.setItem(25, staminaItem);
+        inventory.setItem(31, arcaneItem);
 
         ItemStack exit = new ItemStack(Material.RED_CONCRETE, 1);
         ItemMeta exitMeta = exit.getItemMeta();
@@ -151,7 +137,19 @@ public class LevelUpMenu extends Menu {
         inventory.setItem(44, exit);
     }
 
-    public void setAttributeItems() {
+    private void updateAttributes() {
+        points = attributes.getAttributePoints();
+        vitality = attributes.getVitality();
+        vitalityBonus = (int) attributes.getVitalityBonus();
+        strength = attributes.getStrength();
+        strengthBonus = attributes.getStrengthBonus();
+        stamina = attributes.getStamina();
+        staminaBonus = (int) attributes.getEnergyBonus();
+        arcane = attributes.getArcane();
+        overhealthBonus = (int) attributes.getOverhealthBonus();
+    }
+
+    public void updateAttributeItems() {
         // vitality item
         vitalityItem = new ItemStack(Material.APPLE, vitality);
         if (vitality == 0) {
@@ -177,6 +175,19 @@ public class LevelUpMenu extends Menu {
         sLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + strengthBonus + "% melee damage"));
         sMeta.setLore(sLore);
         strengthItem.setItemMeta(sMeta);
+
+        // arcane item
+        arcaneItem = new ItemStack(Material.ENCHANTED_BOOK, arcane);
+        if (arcane == 0) {
+            arcaneItem.setAmount(1);
+        }
+        ItemMeta aMeta = arcaneItem.getItemMeta();
+        ArrayList<String> aLore = new ArrayList<>();
+        aMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9&lArcane"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + arcane));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " overhealth"));
+        aMeta.setLore(aLore);
+        arcaneItem.setItemMeta(aMeta);
 
         // stamina item
         staminaItem = new ItemStack(Material.GOLD_INGOT, stamina);

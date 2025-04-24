@@ -36,6 +36,9 @@ public class SetAttributeCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equals("stamina")) {
                 attributes.setStamina(mod);
                 player.sendMessage("Stamina set to " + mod);
+            } else if (args[0].equals("arcane")) {
+                attributes.setArcane(mod);
+                player.sendMessage("Arcane set to " + mod);
             }
 
             profile.setAttributes(attributes);
@@ -50,7 +53,7 @@ public class SetAttributeCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("vitality", "strength", "stamina");
+            List<String> subCommands = Arrays.asList("vitality", "strength", "stamina", "arcane");
             for (String subCmd : subCommands) {
                 if (subCmd.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(subCmd);

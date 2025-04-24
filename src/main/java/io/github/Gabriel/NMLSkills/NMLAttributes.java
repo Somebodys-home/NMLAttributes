@@ -63,7 +63,6 @@ public final class NMLAttributes extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AttributesListener(this), this);
         getServer().getPluginManager().registerEvents(new EnergyListener(this), this);
         getServer().getPluginManager().registerEvents(new LevelingListener(this), this);
-        getServer().getPluginManager().registerEvents(new MenuListener(), this);
     }
 
     @Override
