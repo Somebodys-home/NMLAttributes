@@ -10,10 +10,10 @@ public class Attributes {
     private int strength;
     private int arcane;
     private int stamina;
-    private int maxEnergy;
-    private int currentEnergy;
-    private int currentOverhealth;
-    private int maxOverhealth;
+    private double currentEnergy;
+    private double maxEnergy;
+    private double currentOverhealth;
+    private double maxOverhealth;
 
     // SUB STATS: stats that are just from calculations
     private int vitalityBonus;
@@ -27,8 +27,8 @@ public class Attributes {
                       int strength,
                       int arcane,
                       int stamina,
-                      int currentEnergy, int maxEnergy,
-                      int currentOverhealth, int maxOverhealth) {
+                      double currentEnergy, double maxEnergy,
+                      double currentOverhealth, double maxOverhealth) {
         this.level = level;
         this.exp = exp;
         exp2NextLevel = 100;
@@ -138,15 +138,15 @@ public class Attributes {
         }
     }
 
-    public int getMaxOverhealth() {
+    public double getMaxOverhealth() {
         return maxOverhealth;
     }
 
-    public int getCurrentOverhealth() {
+    public double getCurrentOverhealth() {
         return currentOverhealth;
     }
 
-    public void setCurrentOverhealth(int currentOverhealth) {}
+    public void setCurrentOverhealth(double currentOverhealth) {}
 
     public int getOverhealthBonus() {
         return overhealthBonus;
@@ -171,15 +171,15 @@ public class Attributes {
         return energyBonus;
     }
 
-    public int getMaxEnergy() {
+    public double getMaxEnergy() {
         return maxEnergy;
     }
 
-    public int getCurrentEnergy() {
+    public double getCurrentEnergy() {
         return currentEnergy;
     }
 
-    public void setCurrentEnergy(int currentEnergy) {
+    public void setCurrentEnergy(double currentEnergy) {
         this.currentEnergy = currentEnergy;
     }
 }

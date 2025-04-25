@@ -17,8 +17,14 @@ public class EnergyListener implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (event.getEntity() instanceof Player player) {
+            if (player.isSprinting()) {
+                event.setCancelled(true);
+            }
+        }
+
+        if (event.getEntity() instanceof Player player) {
             int foodLevelChange = event.getFoodLevel() - player.getFoodLevel();
-            int energyChange = foodLevelChange * (nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy() / 20);
+            double energyChange = foodLevelChange * (nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy() / 20);
 
             nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().setCurrentEnergy(nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy() + energyChange);
         }
@@ -27,19 +33,10 @@ public class EnergyListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        int maxEnergy = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
+        double maxEnergy = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
         if (player.isSprinting()) {
             nmlAttributes.getEnergyManager().useEnergy(player, maxEnergy / 200);
-        }
-    }
-
-    @EventHandler
-    public void onFoodLevelChangeFromSprinting(FoodLevelChangeEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (player.isSprinting()) {
-                event.setCancelled(true);
-            }
         }
     }
 }

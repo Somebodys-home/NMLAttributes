@@ -47,7 +47,7 @@ public final class NMLAttributes extends JavaPlugin {
         levelManager.updateLevelBarTask();
 
         overhealthManager = new OverhealthManager(this);
-//        overhealthManager.startOverhealthTracker();
+        overhealthManager.startOverhealthTracker();
 
         getCommand("attributes").setExecutor(new AttributesCommand(this));
         getCommand("setAttribute").setExecutor(new SetAttributeCommand(this));

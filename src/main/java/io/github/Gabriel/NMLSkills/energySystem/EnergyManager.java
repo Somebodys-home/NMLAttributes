@@ -15,38 +15,38 @@ public class EnergyManager {
         profileManager = this.nmlAttributes.getProfileManager();
     }
 
-    public void addEnergy(Player player, int amount) {
-        int currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
-        int maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
+    public void addEnergy(Player player, double amount) {
+        double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
+        double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
         if ((amount + currentEnergy) > maxEnergy) {
             amount = maxEnergy - currentEnergy;
         }
 
-        int edited = currentEnergy + amount;
+        double edited = currentEnergy + amount;
 
         profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().setCurrentEnergy(edited);
         updateEnergyBar(player);
     }
 
-    public void useEnergy(Player player, int amount){
-        int currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
-        int maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
+    public void useEnergy(Player player, double amount){
+        double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
+        double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
         if (amount > maxEnergy) {
             amount = maxEnergy;
         }
 
-        int edited = currentEnergy - amount;
+        double edited = currentEnergy - amount;
 
         profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().setCurrentEnergy(edited);
         updateEnergyBar(player);
     }
 
     public void updateEnergyBar(Player player) {
-        int currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
-        int maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
-        int currentEnergyPercent = currentEnergy / maxEnergy;
+        double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
+        double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
+        double currentEnergyPercent = currentEnergy / maxEnergy;
 
         if (currentEnergyPercent > 1) {
             currentEnergyPercent = 1;
@@ -61,8 +61,8 @@ public class EnergyManager {
         new BukkitRunnable() {
             public void run(){
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    int currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
-                    int maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
+                    double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
+                    double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
                     if (currentEnergy < maxEnergy) {
                         addEnergy(player, (maxEnergy / 15)); // how long in seconds it takes to regen to full energy

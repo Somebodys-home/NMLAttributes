@@ -13,7 +13,8 @@ public class StartOverhealthRegenCommand implements CommandExecutor {
     @Override
     public boolean onCommand(org.bukkit.command.CommandSender sender, org.bukkit.command.Command command, String s, String[] strings) {
         if (sender instanceof Player player) {
-            overhealthManager.startOverhealthRegen(player);
+            //overhealthManager.startOverhealthRegen(player);
+            player.sendMessage("does nothing atm");
         }
 
         return true;
