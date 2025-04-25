@@ -29,3 +29,6 @@ commands:
   setExp:
     description: sets the player's exp
     usage: /<command> <mod>
+  startOverhealthRegen:
+    description: jumpstarts the player's overhealth regen
+    usage: /<command>

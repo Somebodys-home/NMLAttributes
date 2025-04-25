@@ -11,11 +11,11 @@ import io.github.Gabriel.NMLSkills.attributeSystem.AttributesListener;
 import io.github.Gabriel.NMLSkills.attributeSystem.PlayerActionBar;
 import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthListener;
 import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthManager;
+import io.github.Gabriel.NMLSkills.overhealthSystem.StartOverhealthRegenCommand;
 import io.github.Gabriel.NMLSkills.profileSystem.ProfileConfig;
 import io.github.Gabriel.NMLSkills.profileSystem.ProfileListener;
 import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
 import io.github.Gabriel.NMLSkills.profileSystem.ResetProfileCommand;
-import io.github.Gabriel.menuSystem.MenuListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NMLAttributes extends JavaPlugin {
@@ -47,7 +47,7 @@ public final class NMLAttributes extends JavaPlugin {
         levelManager.updateLevelBarTask();
 
         overhealthManager = new OverhealthManager(this);
-        overhealthManager.startOverhealthTracker();
+//        overhealthManager.startOverhealthTracker();
 
         getCommand("attributes").setExecutor(new AttributesCommand(this));
         getCommand("setAttribute").setExecutor(new SetAttributeCommand(this));
@@ -57,6 +57,7 @@ public final class NMLAttributes extends JavaPlugin {
         getCommand("setLevel").setExecutor(new SetLevelCommand());
         getCommand("resetProfile").setExecutor(new ResetProfileCommand(this));
         getCommand("setExp").setExecutor(new SetExpCommand(this));
+        getCommand("startOverhealthRegen").setExecutor(new StartOverhealthRegenCommand(this));
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
         getServer().getPluginManager().registerEvents(new OverhealthListener(this), this);
@@ -70,7 +71,6 @@ public final class NMLAttributes extends JavaPlugin {
         // DO NOT CHANGE THE ORDER OF THIS, IT WILL BREAK
         profileManager.saveProfilesToConfig();
         profileConfig.saveConfig();
-        overhealthManager.stopOverhealthTracker();
     }
 
     public NMLAttributes getInstance() {

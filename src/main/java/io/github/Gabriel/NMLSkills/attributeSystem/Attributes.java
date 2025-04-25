@@ -10,27 +10,27 @@ public class Attributes {
     private int strength;
     private int arcane;
     private int stamina;
-    private double maxEnergy;
-    private double currentEnergy;
-    private double currentOverhealth;
-    private double maxOverhealth;
+    private int maxEnergy;
+    private int currentEnergy;
+    private int currentOverhealth;
+    private int maxOverhealth;
 
     // SUB STATS: stats that are just from calculations
-    private double vitalityBonus;
-    private double strengthBonus;
-    private double energyBonus; // increases max energy
-    private double overhealthBonus;
+    private int vitalityBonus;
+    private int strengthBonus;
+    private int energyBonus; // increases max energy
+    private int overhealthBonus;
 
 
-    public Attributes(int level, int attributePoints,
+    public Attributes(int level, int exp, int attributePoints,
                       int vitality,
                       int strength,
                       int arcane,
                       int stamina,
-                      double currentEnergy, double maxEnergy,
-                      double currentOverhealth, double maxOverhealth) {
+                      int currentEnergy, int maxEnergy,
+                      int currentOverhealth, int maxOverhealth) {
         this.level = level;
-        exp = 0;
+        this.exp = exp;
         exp2NextLevel = 100;
         this.vitality = vitality;
         this.strength = strength;
@@ -104,7 +104,7 @@ public class Attributes {
         vitalityBonus = this.vitality;
     }
 
-    public double getVitalityBonus() {
+    public int getVitalityBonus() {
         return vitalityBonus;
     }
 
@@ -118,7 +118,7 @@ public class Attributes {
         strengthBonus = 3 * this.strength;
     }
 
-    public double getStrengthBonus() {
+    public int getStrengthBonus() {
         return strengthBonus;
     }
 
@@ -138,17 +138,17 @@ public class Attributes {
         }
     }
 
-    public double getMaxOverhealth() {
+    public int getMaxOverhealth() {
         return maxOverhealth;
     }
 
-    public double getCurrentOverhealth() {
+    public int getCurrentOverhealth() {
         return currentOverhealth;
     }
 
-    public void setCurrentOverhealth(double currentOverhealth) {}
+    public void setCurrentOverhealth(int currentOverhealth) {}
 
-    public double getOverhealthBonus() {
+    public int getOverhealthBonus() {
         return overhealthBonus;
     }
 
@@ -167,19 +167,19 @@ public class Attributes {
         }
     }
 
-    public double getEnergyBonus() {
+    public int getEnergyBonus() {
         return energyBonus;
     }
 
-    public double getMaxEnergy() {
+    public int getMaxEnergy() {
         return maxEnergy;
     }
 
-    public double getCurrentEnergy() {
+    public int getCurrentEnergy() {
         return currentEnergy;
     }
 
-    public void setCurrentEnergy(double currentEnergy) {
+    public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
     }
 }

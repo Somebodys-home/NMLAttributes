@@ -14,23 +14,16 @@ public class OverhealthListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
-    public void onPlayerDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            plugin.getOverhealthManager().add2OverhealthMap(player);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        plugin.getOverhealthManager().add2OverhealthMap(event.getPlayer());
-    }
-
-    @EventHandler
-    public void overHealth(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        double overhealthBonus = plugin.getProfileManager().getPlayerProfile(player.getUniqueId()).getAttributes().getOverhealthBonus();
-
-        player.setAbsorptionAmount(overhealthBonus);
-    }
+//    @EventHandler
+//    public void onPlayerDamage(EntityDamageEvent event) {
+//        if (event.getEntity() instanceof Player player) {
+//            plugin.getOverhealthManager().add2OverhealthMap(player);
+//        }
+//    }
+//
+//    @EventHandler
+//    public void onPlayerJoin(PlayerJoinEvent event) {
+//        Player player = event.getPlayer();
+//        plugin.getOverhealthManager().add2OverhealthMap(player);
+//    }
 }

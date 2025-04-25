@@ -22,7 +22,7 @@ public class AttributesMenu extends Menu {
     private int arcane;
     private double overhealthBonus;
     private int stamina;
-    private double staminaBonus;
+    private int energyBonus;
     private int level;
     private int exp;
     private int exp4LevelUp;
@@ -45,7 +45,7 @@ public class AttributesMenu extends Menu {
         strength = attributes.getStrength();
         strengthBonus = attributes.getStrengthBonus();
         stamina = attributes.getStamina();
-        staminaBonus = attributes.getEnergyBonus();
+        energyBonus = (int) attributes.getEnergyBonus();
         arcane = attributes.getArcane();
         overhealthBonus = attributes.getOverhealthBonus();
 
@@ -94,7 +94,7 @@ public class AttributesMenu extends Menu {
         ArrayList<String> aLore = new ArrayList<>();
         aMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9&lArcane"));
         aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + arcane));
-        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + "overhealth"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " overhealth"));
         aMeta.setLore(aLore);
         arcaneItem.setItemMeta(aMeta);
 
@@ -107,7 +107,7 @@ public class AttributesMenu extends Menu {
         ArrayList<String> saLore = new ArrayList<>();
         saMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6&lStamina"));
         saLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + stamina));
-        saLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + staminaBonus + " energy"));
+        saLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + energyBonus + " energy"));
         saMeta.setLore(saLore);
         staminaItem.setItemMeta(saMeta);
     }

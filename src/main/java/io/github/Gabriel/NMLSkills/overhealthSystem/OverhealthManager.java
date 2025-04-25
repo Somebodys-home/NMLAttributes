@@ -16,65 +16,65 @@ public class OverhealthManager {
     private final Map<UUID, Long> overhealthRegenMap = new HashMap<>();
     private BukkitRunnable checker;
     private BukkitRunnable overhealthRegen;
-    private boolean needsoverhealthRegen = false;
+    private int overhealthChange = 0; // the fact i have to put this here pisses me off to no end
 
     public OverhealthManager(NMLAttributes plugin) {
         this.plugin = plugin;
         profileManager = plugin.getProfileManager();
     }
 
-    public void startOverhealthTracker() { // idk how this works and im too scared to tamper it
-        checker = new BukkitRunnable() {
-            @Override
-            public void run() {
-                long now = System.currentTimeMillis();
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    UUID uuid = player.getUniqueId();
-                    long last = overhealthRegenMap.getOrDefault(uuid, 0L);
-                    if (now - last >= 3000 && last != -1) {
-                        startOverhealthRegen(player);
-                        overhealthRegenMap.put(uuid, -1L);
-                    }
-                }
-            }
-        };
-        checker.runTaskTimer(plugin, 0L, 20L); // every second
-    }
-
-    public void stopOverhealthTracker() {
-        if (checker != null) {
-            checker.cancel();
-        }
-    }
+//    public void startOverhealthTracker() {
+//        checker = new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                long now = System.currentTimeMillis();
+//                for (Player player : Bukkit.getOnlinePlayers()) {
+//                    UUID uuid = player.getUniqueId();
+//                    long last = overhealthRegenMap.getOrDefault(uuid, 0L);
+//                    if (now - last >= 3000 && last != -1) {
+//                        startOverhealthRegen(player);
+//                        overhealthRegenMap.put(uuid, -1L);
+//                    }
+//                }
+//            }
+//        };
+//        checker.runTaskTimer(plugin, 0L, 20L); // every second
+//    }
 
     public void startOverhealthRegen(Player player) {
         Attributes attributes = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes();
-        final double[] currentOverhealth = {attributes.getCurrentOverhealth()};
-        double maxOverhealth = attributes.getMaxOverhealth();
+        int currentOverhealth = attributes.getCurrentOverhealth();
+        int maxOverhealth = attributes.getMaxOverhealth();
 
-        if (needsoverhealthRegen) {
-            overhealthRegen = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (currentOverhealth[0] >= maxOverhealth) { // regens your overhealth over time until it reaches max
-                        currentOverhealth[0] += maxOverhealth / 15; // <- how long in seconds it takes to regen to full overhealth
+        overhealthRegen = new BukkitRunnable() { // runnable method that regenerates overhealth every second up to the max
+            @Override
+            public void run() {
+                if (currentOverhealth < maxOverhealth) {
+                    overhealthChange = maxOverhealth / 15;
 
-                        attributes.setCurrentOverhealth(currentOverhealth[0]);
-                        profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
-                        profileManager.saveAProfileToConfig(player);
-                        profileManager.updateStatsFromProfile(player);
-                    } else {
-                        needsoverhealthRegen = false;
-                        overhealthRegenMap.remove(player.getUniqueId());
-                        overhealthRegen.cancel();
-                    }
+                    attributes.setCurrentOverhealth(currentOverhealth + overhealthChange);
+                    profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
+                    profileManager.updateStatsFromProfile(player);
+                } else {
+                    this.cancel();
+                    player.sendMessage("You have reached your max overhealth!");
+                    attributes.setCurrentOverhealth(maxOverhealth);
                 }
-            };
-            checker.runTaskTimer(plugin, 0L, 20L); // every second
-        }
+
+                setOverhealthAbsorption(player);
+            }
+        };
+        overhealthRegen.runTaskTimer(plugin, 0L, 20L); // every second
     }
 
-    public void add2OverhealthMap(Player player) {
-        overhealthRegenMap.put(player.getUniqueId(), System.currentTimeMillis());
+//    public void add2OverhealthMap(Player player) {
+//        overhealthRegenMap.put(player.getUniqueId(), System.currentTimeMillis());
+//    }
+
+    public void setOverhealthAbsorption(Player player) {
+        Attributes attributes = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes();
+        int currentOverhealth = attributes.getCurrentOverhealth();
+
+        player.setAbsorptionAmount(currentOverhealth);
     }
 }

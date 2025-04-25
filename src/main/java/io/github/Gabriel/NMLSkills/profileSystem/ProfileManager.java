@@ -23,7 +23,7 @@ public class ProfileManager {
     }
 
     public Profile createnewProfile(Player player) {
-        Attributes attributes = new Attributes(1, 0, 0,0, 0, 0, 100, 100, 0, 0);
+        Attributes attributes = new Attributes(1, 0, 0, 0,0, 0, 0, 100, 100, 0, 0);
         Profile profile = new Profile(attributes);
 
         profileMap.put(player.getUniqueId(), profile);
@@ -49,7 +49,7 @@ public class ProfileManager {
             int maxEnergy = config.getInt(id + ".attributes.maxEnergy");
             int currentOverhealth = config.getInt(id + ".attributes.currentOverhealth");
             int maxOverhealth = config.getInt(id + ".attributes.maxOverhealth");
-            Attributes attributes = new Attributes(level, attributePoints, vitality, strength, arcane, stamina, currentEnergy, maxEnergy, currentOverhealth, maxOverhealth);
+            Attributes attributes = new Attributes(level, exp, attributePoints, vitality, strength, arcane, stamina, currentEnergy, maxEnergy, currentOverhealth, maxOverhealth);
             Profile profile = new Profile(attributes);
 
             profileMap.put(uuid, profile);
@@ -101,5 +101,7 @@ public class ProfileManager {
         int vitality = profile.getAttributes().getVitality();
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20D + vitality);
+        nmlAttributes.getLevelManager().updateLevelBar(player);
+
     }
 }
