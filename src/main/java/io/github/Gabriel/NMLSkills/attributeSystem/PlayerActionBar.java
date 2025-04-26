@@ -19,9 +19,16 @@ public class PlayerActionBar {
     }
 
     public String[] setPlayerActionBarParts(Player player) {
+        double totalhealth = player.getHealth() + player.getAbsorptionAmount();
+        char healthColor = 'c';
         double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
         double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
-        String health = (ChatColor.translateAlternateColorCodes('&', "&c❤ " + (int) player.getHealth() + " / " + (int) player.getMaxHealth() + " ❤"));
+
+        if (player.getAbsorptionAmount() > 0) {
+            healthColor = '9';
+        }
+
+        String health = (ChatColor.translateAlternateColorCodes('&', "&" + healthColor + "❤ " + (int) totalhealth + " / " + (int) player.getMaxHealth() + " ❤"));
         String energy = (ChatColor.translateAlternateColorCodes('&', "&6⚡ " +  (int) currentEnergy + " / " + (int) maxEnergy) + " ⚡");
 
         return new String[]{health, energy};
