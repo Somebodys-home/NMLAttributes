@@ -140,13 +140,13 @@ public class LevelUpMenu extends Menu {
     private void updateAttributes() {
         points = attributes.getAttributePoints();
         vitality = attributes.getVitality();
-        vitalityBonus = (int) attributes.getVitalityBonus();
+        vitalityBonus = attributes.getVitalityBonus();
         strength = attributes.getStrength();
         strengthBonus = attributes.getStrengthBonus();
         stamina = attributes.getStamina();
-        staminaBonus = (int) attributes.getEnergyBonus();
+        staminaBonus = attributes.getEnergyBonus();
         arcane = attributes.getArcane();
-        overhealthBonus = (int) attributes.getOverhealthBonus();
+        overhealthBonus = attributes.getOverhealthBonus();
     }
 
     public void updateAttributeItems() {
@@ -185,7 +185,7 @@ public class LevelUpMenu extends Menu {
         ArrayList<String> aLore = new ArrayList<>();
         aMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9&lArcane"));
         aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + arcane));
-        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " overhealth"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " max overhealth"));
         aMeta.setLore(aLore);
         arcaneItem.setItemMeta(aMeta);
 

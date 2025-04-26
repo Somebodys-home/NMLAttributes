@@ -131,7 +131,7 @@ public class Attributes {
         this.arcane = arcane;
 
         overhealthBonus = 5 * this.arcane;
-        maxOverhealth = 50 + overhealthBonus;
+        maxOverhealth = overhealthBonus;
 
         if (currentOverhealth > maxOverhealth) {
             currentOverhealth = maxOverhealth;
@@ -146,7 +146,12 @@ public class Attributes {
         return currentOverhealth;
     }
 
-    public void setCurrentOverhealth(double currentOverhealth) {}
+    public void setCurrentOverhealth(double currentOverhealth) {
+        this.currentOverhealth = currentOverhealth;
+        if (this.currentOverhealth > maxOverhealth) {
+            this.currentOverhealth = maxOverhealth;
+        }
+    }
 
     public int getOverhealthBonus() {
         return overhealthBonus;

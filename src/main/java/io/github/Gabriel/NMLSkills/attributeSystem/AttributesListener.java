@@ -1,6 +1,7 @@
 package io.github.Gabriel.NMLSkills.attributeSystem;
 
 import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthChangeEvent;
 import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -13,7 +14,8 @@ public class AttributesListener implements Listener {
     private ProfileManager profileManager;
     private double vitalityBonus;
     private double strengthBonus;
-    private double overhealthBonus;
+    private double currentOverhealth;
+    private double maxOverhealth;
 
     public AttributesListener(NMLAttributes nmlAttributes) {
         profileManager = nmlAttributes.getProfileManager();
@@ -34,5 +36,24 @@ public class AttributesListener implements Listener {
 
             event.setDamage(event.getDamage() * (1 + (strengthBonus / 100)));
         }
+    }
+
+    @EventHandler
+    public void overhealth(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        maxOverhealth = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxOverhealth();
+
+        profileManager.updateStatsFromProfile(player);
+    }
+
+    @EventHandler
+    public void updateOverhealth(OverhealthChangeEvent event) {
+        Player player = event.getPlayer();
+        Attributes attributes = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes();
+
+        player.setAbsorptionAmount(event.getNewOverhealth());
+        attributes.setCurrentOverhealth(event.getNewOverhealth());
+        profileManager.getPlayerProfile(player.getUniqueId()).setAttributes(attributes);
+        profileManager.updateStatsFromProfile(player);
     }
 }

@@ -73,7 +73,7 @@ public class ProfileManager {
             config.set(id + ".attributes.currentEnergy", attributes.getCurrentEnergy());
             config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
             config.set(id + ".attributes.currentOverhealth", attributes.getCurrentOverhealth());
-            config.set(id + ".attributes.maxOverhealth", attributes.getMaxEnergy());
+            config.set(id + ".attributes.maxOverhealth", attributes.getMaxOverhealth());
         }
     }
 
@@ -93,15 +93,18 @@ public class ProfileManager {
         config.set(id + ".attributes.currentEnergy", attributes.getCurrentEnergy());
         config.set(id + ".attributes.maxEnergy", attributes.getMaxEnergy());
         config.set(id + ".attributes.currentOverhealth", attributes.getCurrentOverhealth());
-        config.set(id + ".attributes.maxOverhealth", attributes.getMaxEnergy());
+        config.set(id + ".attributes.maxOverhealth", attributes.getMaxOverhealth());
     }
 
-    public void updateStatsFromProfile(Player player) { // method given this name for future-proofing
+    public void updateStatsFromProfile(Player player) {
         Profile profile = profileMap.get(player.getUniqueId());
-        int vitality = profile.getAttributes().getVitality();
+        double vitality = profile.getAttributes().getVitality();
+        double currentOverhealth = profile.getAttributes().getCurrentOverhealth();
+        double maxOverhealth = profile.getAttributes().getMaxOverhealth();
 
+        player.setAbsorptionAmount(currentOverhealth);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20D + vitality);
+        player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).setBaseValue(maxOverhealth);
         nmlAttributes.getLevelManager().updateLevelBar(player);
-
     }
 }

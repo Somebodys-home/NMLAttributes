@@ -94,7 +94,9 @@ public class AttributesMenu extends Menu {
         ArrayList<String> aLore = new ArrayList<>();
         aMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9&lArcane"));
         aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lLevel: &f" + arcane));
-        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " overhealth"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lBonus: &f+" + overhealthBonus + " max overhealth"));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lCurrent Overhealth: &f" + profileManager.getPlayerProfile(playerMenuUtility.getOwner().getUniqueId()).getAttributes().getCurrentOverhealth()));
+        aLore.add(ChatColor.translateAlternateColorCodes('&', "&e&lTotal Overhealth: &f" + profileManager.getPlayerProfile(playerMenuUtility.getOwner().getUniqueId()).getAttributes().getMaxOverhealth()));
         aMeta.setLore(aLore);
         arcaneItem.setItemMeta(aMeta);
 
