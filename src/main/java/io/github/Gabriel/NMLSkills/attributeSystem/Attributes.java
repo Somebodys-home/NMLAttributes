@@ -16,11 +16,34 @@ public class Attributes {
     private double maxOverhealth;
 
     // SUB STATS: stats that are just from calculations
-    private int vitalityBonus;
-    private int strengthBonus;
+    private int vitalityBonus; // increases max health
+    private int strengthBonus; // increases melee damage
     private int energyBonus; // increases max energy
-    private int overhealthBonus;
+    private int overhealthBonus; // increases max overhealth
 
+    public Attributes(int level, int attributePoints,
+                      int vitality,
+                      int strength,
+                      int arcane,
+                      int stamina) {
+        this.level = level;
+        this.exp = 0;
+        exp2NextLevel = 100;
+        this.vitality = vitality;
+        this.strength = strength;
+        this.stamina = stamina;
+        this.arcane = arcane;
+
+        energyBonus = 15 * this.stamina; // increases max energy per stamina level
+        vitalityBonus = this.vitality; // increases max health per vitality level
+        strengthBonus = 3 * this.strength; // increases melee damage increase per strength level
+        overhealthBonus = 5 * this.arcane; // increases overhealth per arcane level
+        this.currentEnergy = 0;
+        this.maxEnergy = 0;
+        this.attributePoints = attributePoints;
+        this.currentOverhealth = 0;
+        this.maxOverhealth = 0;
+    }
 
     public Attributes(int level, int exp, int attributePoints,
                       int vitality,
@@ -69,6 +92,7 @@ public class Attributes {
         }
     }
 
+    // exp
     public int getExp() {
         return exp;
     }

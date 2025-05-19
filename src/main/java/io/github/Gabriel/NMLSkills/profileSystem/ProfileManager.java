@@ -23,7 +23,7 @@ public class ProfileManager {
     }
 
     public Profile createnewProfile(Player player) {
-        Attributes attributes = new Attributes(1, 0, 0, 0,0, 0, 0, 100, 100, 0, 0);
+        Attributes attributes = new Attributes(1,0, 0,0, 0, 0);
         Profile profile = new Profile(attributes);
 
         profileMap.put(player.getUniqueId(), profile);
