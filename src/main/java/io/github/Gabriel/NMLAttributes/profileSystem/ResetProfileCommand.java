@@ -1,6 +1,6 @@
-package io.github.Gabriel.NMLSkills.profileSystem;
+package io.github.Gabriel.NMLAttributes.profileSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
-package io.github.Gabriel.NMLSkills.profileSystem;
+package io.github.Gabriel.NMLAttributes.profileSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.attributeSystem.Attributes;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.attributeSystem.Attributes;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

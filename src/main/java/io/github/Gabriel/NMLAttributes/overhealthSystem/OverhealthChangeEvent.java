@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLSkills.overhealthSystem;
+package io.github.Gabriel.NMLAttributes.overhealthSystem;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

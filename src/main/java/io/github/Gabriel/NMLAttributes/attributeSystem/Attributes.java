@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLSkills.attributeSystem;
+package io.github.Gabriel.NMLAttributes.attributeSystem;
 
 public class Attributes {
     // CORE STATS: stats that get saved to the profiles.yml
@@ -21,6 +21,7 @@ public class Attributes {
     private int energyBonus; // increases max energy
     private int overhealthBonus; // increases max overhealth
 
+    // todo: somethings wrong with this with /resetprofile, FIX IT
     public Attributes(int level, int attributePoints,
                       int vitality,
                       int strength,
@@ -39,7 +40,7 @@ public class Attributes {
         strengthBonus = 3 * this.strength; // increases melee damage increase per strength level
         overhealthBonus = 5 * this.arcane; // increases overhealth per arcane level
         this.currentEnergy = 0;
-        this.maxEnergy = 0;
+        this.maxEnergy = 100 + energyBonus;
         this.attributePoints = attributePoints;
         this.currentOverhealth = 0;
         this.maxOverhealth = 0;

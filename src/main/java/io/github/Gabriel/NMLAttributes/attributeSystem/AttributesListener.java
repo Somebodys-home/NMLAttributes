@@ -1,8 +1,8 @@
-package io.github.Gabriel.NMLSkills.attributeSystem;
+package io.github.Gabriel.NMLAttributes.attributeSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthChangeEvent;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.overhealthSystem.OverhealthChangeEvent;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileManager;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

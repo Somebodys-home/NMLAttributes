@@ -1,17 +1,16 @@
-package io.github.Gabriel.NMLSkills;
+package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.NMLSkills.attributeSystem.AttributesCommand;
-import io.github.Gabriel.NMLSkills.energySystem.EnergyListener;
-import io.github.Gabriel.NMLSkills.energySystem.EnergyManager;
-import io.github.Gabriel.NMLSkills.levelSystem.*;
-import io.github.Gabriel.NMLSkills.attributeSystem.AttributesListener;
-import io.github.Gabriel.NMLSkills.attributeSystem.PlayerActionBar;
-import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthListener;
-import io.github.Gabriel.NMLSkills.overhealthSystem.OverhealthManager;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileConfig;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileListener;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
-import io.github.Gabriel.NMLSkills.profileSystem.ResetProfileCommand;
+import io.github.Gabriel.NMLAttributes.attributeSystem.AttributesCommand;
+import io.github.Gabriel.NMLAttributes.energySystem.EnergyListener;
+import io.github.Gabriel.NMLAttributes.energySystem.EnergyManager;
+import io.github.Gabriel.NMLAttributes.levelSystem.*;
+import io.github.Gabriel.NMLAttributes.attributeSystem.AttributesListener;
+import io.github.Gabriel.NMLAttributes.overhealthSystem.OverhealthListener;
+import io.github.Gabriel.NMLAttributes.overhealthSystem.OverhealthManager;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileConfig;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileListener;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLAttributes.profileSystem.ResetProfileCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NMLAttributes extends JavaPlugin {

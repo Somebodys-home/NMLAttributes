@@ -1,10 +1,9 @@
-package io.github.Gabriel.NMLSkills.overhealthSystem;
+package io.github.Gabriel.NMLAttributes.overhealthSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.attributeSystem.Attributes;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.attributeSystem.Attributes;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileManager;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;

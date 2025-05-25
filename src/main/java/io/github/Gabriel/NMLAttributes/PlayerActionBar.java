@@ -1,7 +1,6 @@
-package io.github.Gabriel.NMLSkills.attributeSystem;
+package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

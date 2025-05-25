@@ -1,8 +1,8 @@
-package io.github.Gabriel.NMLSkills.levelSystem;
+package io.github.Gabriel.NMLAttributes.levelSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
-import io.github.Gabriel.NMLSkills.attributeSystem.Attributes;
-import io.github.Gabriel.NMLSkills.profileSystem.ProfileManager;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.attributeSystem.Attributes;
+import io.github.Gabriel.NMLAttributes.profileSystem.ProfileManager;
 import io.github.Gabriel.menuSystem.Menu;
 import io.github.Gabriel.menuSystem.PlayerMenuUtility;
 import org.bukkit.ChatColor;

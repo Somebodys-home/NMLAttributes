@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLSkills.levelSystem;
+package io.github.Gabriel.NMLAttributes.levelSystem;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

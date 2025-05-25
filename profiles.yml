@@ -1,14 +1,14 @@
 cf942050-e942-4990-a113-e3df70b289be:
   attributes:
-    level: 5
+    level: 1
     exp: 0
     exp2NextLevel: 100
-    attributePoints: 1
+    attributePoints: 0
     vitality: 0
     strength: 0
-    arcane: 3
+    arcane: 0
     stamina: 0
     currentEnergy: 100.0
     maxEnergy: 100.0
-    currentOverhealth: 15.0
-    maxOverhealth: 15.0
+    currentOverhealth: 0.0
+    maxOverhealth: 0.0

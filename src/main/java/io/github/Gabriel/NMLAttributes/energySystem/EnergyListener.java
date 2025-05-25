@@ -1,6 +1,6 @@
-package io.github.Gabriel.NMLSkills.energySystem;
+package io.github.Gabriel.NMLAttributes.energySystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

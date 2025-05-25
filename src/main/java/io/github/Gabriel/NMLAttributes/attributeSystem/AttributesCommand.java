@@ -1,6 +1,6 @@
-package io.github.Gabriel.NMLSkills.attributeSystem;
+package io.github.Gabriel.NMLAttributes.attributeSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
 import io.github.Gabriel.menuSystem.MenuSystem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

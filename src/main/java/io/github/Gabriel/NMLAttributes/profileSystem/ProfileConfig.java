@@ -1,6 +1,6 @@
-package io.github.Gabriel.NMLSkills.profileSystem;
+package io.github.Gabriel.NMLAttributes.profileSystem;
 
-import io.github.Gabriel.NMLSkills.NMLAttributes;
+import io.github.Gabriel.NMLAttributes.NMLAttributes;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
