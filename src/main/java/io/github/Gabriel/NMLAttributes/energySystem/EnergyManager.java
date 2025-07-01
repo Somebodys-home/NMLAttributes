@@ -8,14 +8,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class EnergyManager {
     private NMLAttributes nmlAttributes;
-    private ProfileManager profileManager;
+    private static ProfileManager profileManager;
 
     public EnergyManager(NMLAttributes nmlAttributes) {
         this.nmlAttributes = nmlAttributes;
         profileManager = this.nmlAttributes.getProfileManager();
     }
 
-    public void addEnergy(Player player, double amount) {
+    public static void addEnergy(Player player, double amount) {
         double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
         double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
@@ -29,7 +29,7 @@ public class EnergyManager {
         updateEnergyBar(player);
     }
 
-    public void useEnergy(Player player, double amount){
+    public static void useEnergy(Player player, double amount){
         double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
         double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
@@ -43,7 +43,7 @@ public class EnergyManager {
         updateEnergyBar(player);
     }
 
-    public void updateEnergyBar(Player player) {
+    public static void updateEnergyBar(Player player) {
         double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
         double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
         double currentEnergyPercent = currentEnergy / maxEnergy;
