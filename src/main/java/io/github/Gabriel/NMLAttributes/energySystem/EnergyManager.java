@@ -29,7 +29,7 @@ public class EnergyManager {
         updateEnergyBar(player);
     }
 
-    public static void useEnergy(Player player, double amount){
+    public static void useEnergy(Player player, double amount) {
         double currentEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getCurrentEnergy();
         double maxEnergy = profileManager.getPlayerProfile(player.getUniqueId()).getAttributes().getMaxEnergy();
 
