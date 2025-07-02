@@ -32,7 +32,6 @@ public class ProfileManager {
     }
 
     public Profile getPlayerProfile(UUID uuid) {
-        System.out.println("gottem");
         return profileMap.get(uuid);
     }
 
