@@ -1,7 +1,5 @@
 package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.NMLAttributes.attributeSystem.AttributesCommand;
-import io.github.Gabriel.NMLAttributes.attributeSystem.AttributesListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NMLAttributes extends JavaPlugin {
@@ -11,7 +9,7 @@ public final class NMLAttributes extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        getCommand("attributes").setExecutor(new AttributesCommand(this));
+        getCommand("levelUp").setExecutor(new AttributesCommand());
         getServer().getPluginManager().registerEvents(new AttributesListener(), this);
     }
 

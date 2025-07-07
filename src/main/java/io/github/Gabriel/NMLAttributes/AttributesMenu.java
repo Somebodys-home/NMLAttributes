@@ -1,6 +1,5 @@
-package io.github.Gabriel.NMLAttributes.attributeSystem;
+package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.NMLAttributes.NMLAttributes;
 import io.github.Gabriel.menuSystem.Menu;
 import io.github.Gabriel.menuSystem.PlayerMenuUtility;
 import org.bukkit.ChatColor;
@@ -8,7 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class AttributesMenu extends Menu { // todo: finalize menu when all the stats are finalized
 
-    public AttributesMenu(PlayerMenuUtility playerMenuUtility, NMLAttributes nmlAttributes) {
+    public AttributesMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
     }
 
@@ -28,6 +27,6 @@ public class AttributesMenu extends Menu { // todo: finalize menu when all the s
 
     @Override
     public void setMenuItems() {
-        underConstruction();
+
     }
 }

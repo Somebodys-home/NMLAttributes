@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLAttributes.attributeSystem;
+package io.github.Gabriel.NMLAttributes;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
