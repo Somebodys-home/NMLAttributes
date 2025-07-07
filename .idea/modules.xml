@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/nmlskills.iml" filepath="$PROJECT_DIR$/nmlskills.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nmlattributes.iml" filepath="$PROJECT_DIR$/nmlattributes.iml" />
     </modules>
   </component>
 </project>

@@ -5,6 +5,6 @@ api-version: '1.21'
 authors: [ Gabriel Nicolas ]
 description: Plugin for the attributes of the No Man's Land server
 commands:
-  attributes:
+  levelUp:
     description: opens the level up (attributes) menu
     usage: /<command>

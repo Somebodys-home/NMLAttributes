@@ -2,7 +2,7 @@
   <artifact type="jar" name="nmlskills:jar">
     <output-path>$PROJECT_DIR$/..</output-path>
     <root id="archive" name="nmlskills.jar">
-      <element id="module-output" name="nmlskills" />
+      <element id="module-output" name="nmlattributes" />
       <element id="file-copy" path="$PROJECT_DIR$/profiles.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
     </root>
