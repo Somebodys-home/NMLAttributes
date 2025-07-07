@@ -8,12 +8,3 @@ commands:
   attributes:
     description: opens the attributes menu
     usage: /<command>
-  levelUp:
-    description: opens up the level up menu
-    usage: /<command>
-  setLevel:
-    description: sets the player's level
-    usage: /<command> <mod>
-  resetProfile:
-    description: resets the player's profile
-    usage: /<command>
