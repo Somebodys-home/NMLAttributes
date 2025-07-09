@@ -2,6 +2,7 @@ package io.github.Gabriel.NMLAttributes;
 
 import io.github.Gabriel.menuSystem.Menu;
 import io.github.Gabriel.menuSystem.PlayerMenuUtility;
+import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,51 +44,56 @@ public class AttributesMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent event) {
         event.setCancelled(true);
+        int amount = event.isShiftClick() ? 5 : 1;
 
-        if (event.getClick().isLeftClick() && stats.getAttributePoints() > 0 && event.getSlot() != 22) {
+        if (event.getClick().isLeftClick() && stats.getAttributePoints() >= amount && event.getSlot() != 22) {
             switch (event.getSlot()) {
                 case 13 -> {
-                    stats.add2Stat("vitality", 1);
-                    stats.add2Stat("bonushealth", 1);
-                    stats.add2Stat("bonusenergy", 1);
+                    stats.add2Stat("vitality", amount);
+                    stats.add2Stat("bonushealth", amount);
+                    stats.add2Stat("maxenergy", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "bonushealth"));
                 }
-                case 19 -> stats.add2Stat("strength", 1);
+                case 19 -> stats.add2Stat("strength", amount);
                 case 25 -> {
-                    stats.add2Stat("arcane", 1);
-                    stats.add2Stat("bonusoverhealth", 1);
+                    stats.add2Stat("arcane", amount);
+                    stats.add2Stat("maxoverhealth", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth"));
                 }
-                case 31 -> stats.add2Stat("deft", 1);
+                case 31 -> stats.add2Stat("deft", amount);
             }
 
-            stats.setAttributePoints(stats.getAttributePoints() - 1);
-        } else if (event.getClick().isRightClick() && stats.getAttributePoints() != stats.getLevel() - 1 && event.getSlot() != 22) {
+            stats.removeFromStat("attributepoints", amount);
+        } else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (stats.getLevel() - 1 - amount) && event.getSlot() != 22) {
             switch (event.getSlot()) {
                 case 13 -> {
-                    if (stats.getVitality() != 0) {
-                        stats.removeFromStat("vitality", 1);
-                        stats.removeFromStat("bonushealth", 1);
-                        stats.removeFromStat("bonusenergy", 1);
+                    if (stats.getVitality() >= amount) {
+                        stats.removeFromStat("vitality", amount);
+                        stats.removeFromStat("bonushealth", amount);
+                        stats.removeFromStat("maxenergy", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "bonushealth"));
                     }
                 }
                 case 19 -> {
-                    if (stats.getStrength() != 0) {
-                        stats.removeFromStat("strength", 1);
+                    if (stats.getStrength() >= amount) {
+                        stats.removeFromStat("strength", amount);
                     }
                 }
                 case 25 -> {
-                    if (stats.getArcane() != 0) {
-                        stats.removeFromStat("arcane", 1);
-                        stats.removeFromStat("bonusoverhealth", 1);
+                    if (stats.getArcane() >= amount) {
+                        stats.removeFromStat("arcane", amount);
+                        stats.removeFromStat("maxoverhealth", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth"));
                     }
                 }
                 case 31 -> {
-                    if (stats.getDeft() != 0) {
-                        stats.removeFromStat("deft", 1);
+                    if (stats.getDeft() >= amount) {
+                        stats.removeFromStat("deft", amount);
                     }
                 }
             }
 
-            stats.setAttributePoints(stats.getAttributePoints() + 1);
+            stats.add2Stat("attributepoints", amount);
         }
 
         setItems(false);
@@ -112,6 +118,7 @@ public class AttributesMenu extends Menu {
         attributeMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lAttribute Points:&r&f " + stats.getAttributePoints()));
         attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oLeft click an attribute to add a level to it"));
         attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oRight click an attribute to remove a level from it"));
+        attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oShift click to 5x that attribute change"));
 
         attributeMeta.setLore(attributeLore);
         attributeItem.setItemMeta(attributeMeta);

@@ -109,7 +109,13 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLPlayerStats</artifactId>
-            <version>4f327ab58f</version>
+            <version>f46821eef4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Somebodys-home</groupId>
+            <artifactId>NMLOverhealthSystem</artifactId>
+            <version>b64d472eb7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
