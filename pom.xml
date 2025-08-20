@@ -43,26 +43,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.5.3</version>
                 <executions>
                     <execution>
+                        <id>shade-if-needed</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/**</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
                             <relocations>
                                 <relocation>
-                                    <pattern>io.github.Gabriel.menuSystem</pattern>
+                                    <pattern>com.somebodyshome.menusystem</pattern>
                                     <shadedPattern>${shade.prefix}.menuSystem</shadedPattern>
                                 </relocation>
                             </relocations>
@@ -104,18 +98,18 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>MenuSystem</artifactId>
-            <version>544f743dee</version>
+            <version>d4d4a012c9</version>
         </dependency>
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLPlayerStats</artifactId>
-            <version>f46821eef4</version>
+            <version>2a39175b03</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLOverhealthSystem</artifactId>
-            <version>b64d472eb7</version>
+            <version>a8b09eeb8a</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

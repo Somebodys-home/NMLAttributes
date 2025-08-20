@@ -1,6 +1,6 @@
 package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.menuSystem.MenuSystem;
+import io.github.NoOne.menuSystem.MenuSystem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

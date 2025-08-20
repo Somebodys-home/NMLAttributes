@@ -1,6 +1,6 @@
 package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.menuSystem.MenuListener;
+import io.github.NoOne.menuSystem.MenuListener;
 import io.github.NoOne.nMLPlayerStats.NMLPlayerStats;
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
 import org.bukkit.Bukkit;

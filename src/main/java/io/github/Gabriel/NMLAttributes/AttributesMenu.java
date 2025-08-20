@@ -1,7 +1,7 @@
 package io.github.Gabriel.NMLAttributes;
 
-import io.github.Gabriel.menuSystem.Menu;
-import io.github.Gabriel.menuSystem.PlayerMenuUtility;
+import io.github.NoOne.menuSystem.Menu;
+import io.github.NoOne.menuSystem.PlayerMenuUtility;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import org.bukkit.Bukkit;
@@ -60,7 +60,10 @@ public class AttributesMenu extends Menu {
                     stats.add2Stat("maxoverhealth", amount);
                     Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth"));
                 }
-                case 31 -> stats.add2Stat("deft", amount);
+                case 31 -> {
+                    stats.add2Stat("deft", amount);
+                    stats.add2Stat("evasion", amount);
+                }
             }
 
             stats.removeFromStat("attributepoints", amount);
@@ -89,6 +92,7 @@ public class AttributesMenu extends Menu {
                 case 31 -> {
                     if (stats.getDeft() >= amount) {
                         stats.removeFromStat("deft", amount);
+                        stats.removeFromStat("evasion", amount);
                     }
                 }
             }
@@ -98,6 +102,12 @@ public class AttributesMenu extends Menu {
 
         setItems(false);
     }
+
+    @Override
+    public void handlePlayerMenu(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
 
     @Override
     public void setMenuItems() {
