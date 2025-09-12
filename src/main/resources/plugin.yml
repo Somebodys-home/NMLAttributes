@@ -1,7 +1,7 @@
 name: NMLAttributes
 version: '1.0-SNAPSHOT'
 main: io.github.Gabriel.NMLAttributes.NMLAttributes
-api-version: '1.21'
+api-version: '1.21.8'
 authors: [ Gabriel Nicolas ]
 description: Plugin for the attributes of the No Man's Land server
 depend:
