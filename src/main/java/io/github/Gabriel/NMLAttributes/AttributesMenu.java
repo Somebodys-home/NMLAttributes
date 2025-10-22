@@ -2,38 +2,38 @@ package io.github.Gabriel.NMLAttributes;
 
 import io.github.NoOne.menuSystem.Menu;
 import io.github.NoOne.menuSystem.PlayerMenuUtility;
-import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import io.github.NoOne.nMLSkills.skillSystem.Skills;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.ArrayList;
 
 public class AttributesMenu extends Menu {
     private Player player;
     private Stats stats;
-    private ItemStack attributeItem;
-    private ItemStack vitalityItem;
-    private ItemStack strengthItem;
-    private ItemStack arcaneItem;
-    private ItemStack deftItem;
+    private Skills skills;
+    private ItemStack attributePoints;
+    private ItemStack vitality;
+    private ItemStack strength;
+    private ItemStack arcane;
+    private ItemStack deft;
 
-    public AttributesMenu(PlayerMenuUtility playerMenuUtility) {
+    public AttributesMenu(NMLAttributes nmlAttributes, PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
+
         player = playerMenuUtility.getOwner();
-        stats = NMLAttributes.getNmlPlayerStats().getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
+        stats = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
+        skills = nmlAttributes.getSkillSetManager().getSkillSet(player.getUniqueId()).getSkills();
 
         setItems(true);
     }
 
     @Override
     public String getMenuName() {
-        return ChatColor.translateAlternateColorCodes('&', "&d&lLEVEL UP!");
+        return "§d§lLEVEL UP!";
     }
 
     @Override
@@ -44,56 +44,60 @@ public class AttributesMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent event) {
         event.setCancelled(true);
-        int amount = event.isShiftClick() ? 5 : 1;
 
-        if (event.getClick().isLeftClick() && stats.getAttributePoints() >= amount && event.getSlot() != 22) {
+        int amount = event.isShiftClick() ? 5 : 1;
+        int attributePoints = stats.getAttributePoints();
+
+        if (event.getClick().isLeftClick() && attributePoints > 0) { // adding to attributes
+            if (attributePoints < amount) amount = attributePoints;
+
+            stats.removeFromStat("attributepoints", amount);
+
             switch (event.getSlot()) {
                 case 13 -> {
                     stats.add2Stat("vitality", amount);
-                    stats.add2Stat("bonushealth", amount);
+                    stats.changeMaxHealth(player, amount);
                     stats.add2Stat("maxenergy", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "bonushealth"));
                 }
-                case 19 -> stats.add2Stat("strength", amount);
+                case 19 -> {
+                    stats.add2Stat("strength", amount);
+                }
                 case 25 -> {
                     stats.add2Stat("arcane", amount);
                     stats.add2Stat("maxoverhealth", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth"));
                 }
                 case 31 -> {
                     stats.add2Stat("deft", amount);
                     stats.add2Stat("evasion", amount);
                 }
             }
-
-            stats.removeFromStat("attributepoints", amount);
-        } else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (stats.getLevel() - 1 - amount) && event.getSlot() != 22) {
+        }
+        // removing from attributes
+        else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (skills.getCombatLevel() - 1 - amount)) {
             switch (event.getSlot()) {
                 case 13 -> {
-                    if (stats.getVitality() >= amount) {
-                        stats.removeFromStat("vitality", amount);
-                        stats.removeFromStat("bonushealth", amount);
-                        stats.removeFromStat("maxenergy", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "bonushealth"));
-                    }
+                    if (stats.getVitality() < amount) amount = stats.getVitality();
+
+                    stats.removeFromStat("vitality", amount);
+                    stats.changeMaxHealth(player, -amount);
+                    stats.removeFromStat("maxenergy", amount);
                 }
                 case 19 -> {
-                    if (stats.getStrength() >= amount) {
-                        stats.removeFromStat("strength", amount);
-                    }
+                    if (stats.getStrength() < amount) amount = stats.getStrength();
+
+                    stats.removeFromStat("strength", amount);
                 }
                 case 25 -> {
-                    if (stats.getArcane() >= amount) {
-                        stats.removeFromStat("arcane", amount);
-                        stats.removeFromStat("maxoverhealth", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth"));
-                    }
+                    if (stats.getArcane() < amount) amount = stats.getArcane();
+
+                    stats.removeFromStat("arcane", amount);
+                    stats.removeFromStat("maxoverhealth", amount);
                 }
                 case 31 -> {
-                    if (stats.getDeft() >= amount) {
-                        stats.removeFromStat("deft", amount);
-                        stats.removeFromStat("evasion", amount);
-                    }
+                    if (stats.getDeft() < amount) amount = stats.getDeft();
+
+                    stats.removeFromStat("deft", amount);
+                    stats.removeFromStat("evasion", amount);
                 }
             }
 
@@ -111,86 +115,64 @@ public class AttributesMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        inventory.setItem(22, attributeItem);
-        inventory.setItem(13, vitalityItem);
-        inventory.setItem(19, strengthItem);
-        inventory.setItem(25, arcaneItem);
-        inventory.setItem(31, deftItem);
+        inventory.setItem(22, attributePoints);
+        inventory.setItem(13, vitality);
+        inventory.setItem(19, strength);
+        inventory.setItem(25, arcane);
+        inventory.setItem(31, deft);
     }
 
     private void setItems(boolean startingUpMenu) {
-        // attribute points item
-        attributeItem = new ItemStack(Material.NETHER_STAR, Math.max(1, stats.getAttributePoints()));
-        ItemMeta attributeMeta = attributeItem.getItemMeta();
+        attributePoints = new ItemStack(Material.NETHER_STAR, Math.max(1, stats.getAttributePoints()));
+        ItemMeta attributeMeta = attributePoints.getItemMeta();
         ArrayList<String> attributeLore = new ArrayList<>();
-        assert attributeMeta != null;
-
-        attributeMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lAttribute Points:&r&f " + stats.getAttributePoints()));
-        attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oLeft click an attribute to add a level to it"));
-        attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oRight click an attribute to remove a level from it"));
-        attributeLore.add(ChatColor.translateAlternateColorCodes('&', "&e&oShift click to 5x that attribute change"));
-
+        attributeMeta.setDisplayName("§b§lAttribute Points:§r§f " + stats.getAttributePoints());
+        attributeLore.add("§e§oLeft click an attribute to add a level to it");
+        attributeLore.add("§e§oRight click an attribute to remove a level from it");
+        attributeLore.add("§e§oShift click to 5x that change");
         attributeMeta.setLore(attributeLore);
-        attributeItem.setItemMeta(attributeMeta);
+        attributePoints.setItemMeta(attributeMeta);
 
-        // vitality item
-        vitalityItem = new ItemStack(Material.APPLE, Math.max(1, stats.getVitality()));
-        ItemMeta vitalityMeta = vitalityItem.getItemMeta();
+        vitality = new ItemStack(Material.APPLE, Math.max(1, stats.getVitality()));
+        ItemMeta vitalityMeta = vitality.getItemMeta();
         ArrayList<String> vitalityLore = new ArrayList<>();
-        assert vitalityMeta != null;
-
-        vitalityMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&lVitality&c&f Lv. " + stats.getVitality()));
-        vitalityLore.add(ChatColor.translateAlternateColorCodes('&', "&7───── ❤ ─────"));
-        vitalityLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getVitality() + " Health"));
-        vitalityLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getVitality() + " Max Energy"));
-
+        vitalityMeta.setDisplayName("§c§lVitality§c§f Lv. " + stats.getVitality());
+        vitalityLore.add("§7───── ❤ ─────");
+        vitalityLore.add("§e§o+ " + stats.getVitality() + " Health");
+        vitalityLore.add("§e§o+ " + stats.getVitality() + " Max Energy");
         vitalityMeta.setLore(vitalityLore);
-        vitalityItem.setItemMeta(vitalityMeta);
+        vitality.setItemMeta(vitalityMeta);
 
-        // strength item
-        strengthItem = new ItemStack(Material.OAK_LOG, Math.max(1, stats.getStrength()));
-        ItemMeta strengthMeta = strengthItem.getItemMeta();
+        strength = new ItemStack(Material.OAK_LOG, Math.max(1, stats.getStrength()));
+        ItemMeta strengthMeta = strength.getItemMeta();
         ArrayList<String> strengthLore = new ArrayList<>();
-        assert strengthMeta != null;
-
-        strengthMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&2&lStrength&c&f Lv. " + stats.getStrength()));
-        strengthLore.add(ChatColor.translateAlternateColorCodes('&', "&7───── ✊ ─────"));
-        strengthLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getStrength() + " Physical Damage"));
-        strengthLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getStrength() + " Physical Resist"));
-
+        strengthMeta.setDisplayName("§2§lStrength§c§f Lv. " + stats.getStrength());
+        strengthLore.add("§7───── ✊ ─────");
+        strengthLore.add("§e§o+ " + stats.getStrength() + " Physical Damage");
+        strengthLore.add("§e§o+ " + stats.getStrength() + " Physical Resist");
         strengthMeta.setLore(strengthLore);
-        strengthItem.setItemMeta(strengthMeta);
+        strength.setItemMeta(strengthMeta);
 
-        // arcane item
-        arcaneItem = new ItemStack(Material.BOOK, Math.max(1, stats.getArcane()));
-        ItemMeta arcaneMeta = arcaneItem.getItemMeta();
+        arcane = new ItemStack(Material.BOOK, Math.max(1, stats.getArcane()));
+        ItemMeta arcaneMeta = arcane.getItemMeta();
         ArrayList<String> arcaneLore = new ArrayList<>();
-        assert arcaneMeta != null;
-
-        arcaneMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&d&lArcane&c&f Lv. " + stats.getArcane()));
-        arcaneLore.add(ChatColor.translateAlternateColorCodes('&', "&7───── ✦ ─────"));
-        arcaneLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getArcane() + " Elemental Damage"));
-        arcaneLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getArcane() + " Max Overhealth"));
-
+        arcaneMeta.setDisplayName("§d§lArcane§c§f Lv. " + stats.getArcane());
+        arcaneLore.add("§7───── ✦ ─────");
+        arcaneLore.add("§e§o+ " + stats.getArcane() + " Elemental Damage");
+        arcaneLore.add("§e§o+ " + stats.getArcane() + " Max Overhealth");
         arcaneMeta.setLore(arcaneLore);
-        arcaneItem.setItemMeta(arcaneMeta);
+        arcane.setItemMeta(arcaneMeta);
 
-        // deft item
-        deftItem = new ItemStack(Material.WIND_CHARGE, Math.max(1, stats.getDeft()));
-        ItemMeta deftMeta = deftItem.getItemMeta();
+        deft = new ItemStack(Material.WIND_CHARGE, Math.max(1, stats.getDeft()));
+        ItemMeta deftMeta = deft.getItemMeta();
         ArrayList<String> deftLore = new ArrayList<>();
-        assert deftMeta != null;
-
-        deftMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7&lDeft&c&f Lv. " + stats.getDeft()));
-        deftLore.add(ChatColor.translateAlternateColorCodes('&', "&7───── \uD83D\uDCA8 ─────"));
-        deftLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getDeft() + " Ranged Damage"));
-        deftLore.add(ChatColor.translateAlternateColorCodes('&', "&e&o+ " + stats.getDeft() + " Evasion"));
-
+        deftMeta.setDisplayName("§7§lDeft§c§f Lv. " + stats.getDeft());
+        deftLore.add("§7───── \uD83D\uDCA8 ─────");
+        deftLore.add("§e§o+ " + stats.getDeft() + " Ranged Damage");
+        deftLore.add("§e§o+ " + stats.getDeft() + " Evasion");
         deftMeta.setLore(deftLore);
-        deftItem.setItemMeta(deftMeta);
+        deft.setItemMeta(deftMeta);
 
-        if (!startingUpMenu) {
-            setMenuItems();
-        }
+        if (!startingUpMenu) setMenuItems();
     }
 }

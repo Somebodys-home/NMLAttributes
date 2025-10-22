@@ -103,13 +103,13 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLPlayerStats</artifactId>
-            <version>2a39175b03</version>
+            <version>8c9a9b8aa1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
-            <artifactId>NMLOverhealthSystem</artifactId>
-            <version>a8b09eeb8a</version>
+            <artifactId>NMLSkills</artifactId>
+            <version>6d62d8b91e</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

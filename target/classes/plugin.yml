@@ -6,6 +6,7 @@ authors: [ Gabriel Nicolas ]
 description: Plugin for the attributes of the No Man's Land server
 depend:
   - NMLPlayerStats
+  - NMLSkills
 commands:
   levelUp:
     description: opens the level up (attributes) menu
