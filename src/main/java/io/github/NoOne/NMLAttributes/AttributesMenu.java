@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLAttributes;
+package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.menuSystem.Menu;
 import io.github.NoOne.menuSystem.PlayerMenuUtility;
@@ -56,19 +56,24 @@ public class AttributesMenu extends Menu {
             switch (event.getSlot()) {
                 case 13 -> {
                     stats.add2Stat("vitality", amount);
-                    stats.changeMaxHealth(player, amount);
                     stats.add2Stat("maxenergy", amount);
+                    stats.changeMaxHealth(player, amount);
                 }
                 case 19 -> {
                     stats.add2Stat("strength", amount);
+                    stats.add2Stat("physicaldamage", amount);
+                    stats.add2Stat("physicalresist", amount);
                 }
                 case 25 -> {
                     stats.add2Stat("arcane", amount);
                     stats.add2Stat("maxoverhealth", amount);
+                    stats.add2Stat("elementaldamage", amount);
                 }
                 case 31 -> {
                     stats.add2Stat("deft", amount);
                     stats.add2Stat("evasion", amount);
+                    stats.add2Stat("critchance", amount / 2.0);
+                    stats.add2Stat("critdamage", amount);
                 }
             }
         }
@@ -79,25 +84,30 @@ public class AttributesMenu extends Menu {
                     if (stats.getVitality() < amount) amount = stats.getVitality();
 
                     stats.removeFromStat("vitality", amount);
-                    stats.changeMaxHealth(player, -amount);
                     stats.removeFromStat("maxenergy", amount);
+                    stats.changeMaxHealth(player, -amount);
                 }
                 case 19 -> {
                     if (stats.getStrength() < amount) amount = stats.getStrength();
 
                     stats.removeFromStat("strength", amount);
+                    stats.removeFromStat("physicaldamage", amount);
+                    stats.removeFromStat("physicalresist", amount);
                 }
                 case 25 -> {
                     if (stats.getArcane() < amount) amount = stats.getArcane();
 
                     stats.removeFromStat("arcane", amount);
                     stats.removeFromStat("maxoverhealth", amount);
+                    stats.removeFromStat("elementaldamage", amount);
                 }
                 case 31 -> {
                     if (stats.getDeft() < amount) amount = stats.getDeft();
 
                     stats.removeFromStat("deft", amount);
                     stats.removeFromStat("evasion", amount);
+                    stats.removeFromStat("critchance", amount / 2.0);
+                    stats.removeFromStat("critdamage", amount);
                 }
             }
 
@@ -127,9 +137,9 @@ public class AttributesMenu extends Menu {
         ItemMeta attributeMeta = attributePoints.getItemMeta();
         ArrayList<String> attributeLore = new ArrayList<>();
         attributeMeta.setDisplayName("§b§lAttribute Points:§r§f " + stats.getAttributePoints());
-        attributeLore.add("§e§oLeft click an attribute to add a level to it");
-        attributeLore.add("§e§oRight click an attribute to remove a level from it");
-        attributeLore.add("§e§oShift click to 5x that change");
+        attributeLore.add("§eLeft click an attribute to add a level to it");
+        attributeLore.add("§eRight click an attribute to remove a level from it");
+        attributeLore.add("§eShift click to 5x that change");
         attributeMeta.setLore(attributeLore);
         attributePoints.setItemMeta(attributeMeta);
 
@@ -138,8 +148,8 @@ public class AttributesMenu extends Menu {
         ArrayList<String> vitalityLore = new ArrayList<>();
         vitalityMeta.setDisplayName("§c§lVitality§c§f Lv. " + stats.getVitality());
         vitalityLore.add("§7───── ❤ ─────");
-        vitalityLore.add("§e§o+ " + stats.getVitality() + " Health");
-        vitalityLore.add("§e§o+ " + stats.getVitality() + " Max Energy");
+        vitalityLore.add("§e+ " + stats.getVitality() + " Health ❤");
+        vitalityLore.add("§e+ " + stats.getVitality() + " Max Energy ⚡");
         vitalityMeta.setLore(vitalityLore);
         vitality.setItemMeta(vitalityMeta);
 
@@ -147,9 +157,9 @@ public class AttributesMenu extends Menu {
         ItemMeta strengthMeta = strength.getItemMeta();
         ArrayList<String> strengthLore = new ArrayList<>();
         strengthMeta.setDisplayName("§2§lStrength§c§f Lv. " + stats.getStrength());
-        strengthLore.add("§7───── ✊ ─────");
-        strengthLore.add("§e§o+ " + stats.getStrength() + " Physical Damage");
-        strengthLore.add("§e§o+ " + stats.getStrength() + " Physical Resist");
+        strengthLore.add("§7────── ✊ ──────");
+        strengthLore.add("§e+ " + stats.getStrength() + " Physical Resist ⚔");
+        strengthLore.add("§e+ " + stats.getStrength() + " Physical Damage ⚔");
         strengthMeta.setLore(strengthLore);
         strength.setItemMeta(strengthMeta);
 
@@ -157,9 +167,9 @@ public class AttributesMenu extends Menu {
         ItemMeta arcaneMeta = arcane.getItemMeta();
         ArrayList<String> arcaneLore = new ArrayList<>();
         arcaneMeta.setDisplayName("§d§lArcane§c§f Lv. " + stats.getArcane());
-        arcaneLore.add("§7───── ✦ ─────");
-        arcaneLore.add("§e§o+ " + stats.getArcane() + " Elemental Damage");
-        arcaneLore.add("§e§o+ " + stats.getArcane() + " Max Overhealth");
+        arcaneLore.add("§7────── ✦ ──────");
+        arcaneLore.add("§e+ " + stats.getArcane() + " Max Overhealth \uD83D\uDC99");
+        arcaneLore.add("§e+ " + stats.getArcane() + " Elemental Damage ✰");
         arcaneMeta.setLore(arcaneLore);
         arcane.setItemMeta(arcaneMeta);
 
@@ -168,8 +178,9 @@ public class AttributesMenu extends Menu {
         ArrayList<String> deftLore = new ArrayList<>();
         deftMeta.setDisplayName("§7§lDeft§c§f Lv. " + stats.getDeft());
         deftLore.add("§7───── \uD83D\uDCA8 ─────");
-        deftLore.add("§e§o+ " + stats.getDeft() + " Ranged Damage");
-        deftLore.add("§e§o+ " + stats.getDeft() + " Evasion");
+        deftLore.add("§e+ " + stats.getDeft() + " Evasion \uD83D\uDCA8");
+        deftLore.add("§e+ " + stats.getDeft() / 2.0 + " Crit Chance ☠");
+        deftLore.add("§e+ " + stats.getDeft() + " Crit Damage ☠");
         deftMeta.setLore(deftLore);
         deft.setItemMeta(deftMeta);
 

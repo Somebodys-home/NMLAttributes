@@ -1,4 +1,4 @@
-package io.github.Gabriel.NMLAttributes;
+package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.menuSystem.MenuListener;
 import io.github.NoOne.nMLPlayerStats.NMLPlayerStats;

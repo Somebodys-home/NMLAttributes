@@ -6,7 +6,7 @@
 
     <groupId>io.github.NoOne</groupId>
     <artifactId>nmlattributes</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>nmlattributes</name>
@@ -14,7 +14,7 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <shade.prefix>io.github.Gabriel.NoOne.shaded</shade.prefix>
+        <shade.prefix>io.github.NoOne.nmlattributes.shaded</shade.prefix>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -103,7 +103,7 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLPlayerStats</artifactId>
-            <version>8c9a9b8aa1</version>
+            <version>47e015cca9</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

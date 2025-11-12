@@ -1,4 +1,4 @@
-io\github\Gabriel\NMLAttributes\AttributesListener.class
-io\github\Gabriel\NMLAttributes\NMLAttributes.class
-io\github\Gabriel\NMLAttributes\AttributesCommand.class
-io\github\Gabriel\NMLAttributes\AttributesMenu.class
+io\github\NoOne\NMLAttributes\AttributesCommand.class
+io\github\NoOne\NMLAttributes\AttributesMenu.class
+io\github\NoOne\NMLAttributes\NMLAttributes.class
+io\github\NoOne\NMLAttributes\AttributesListener.class
