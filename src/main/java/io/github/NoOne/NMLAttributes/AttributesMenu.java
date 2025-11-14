@@ -2,8 +2,10 @@ package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.menuSystem.Menu;
 import io.github.NoOne.menuSystem.PlayerMenuUtility;
+import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import io.github.NoOne.nMLSkills.skillSystem.Skills;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -66,7 +68,7 @@ public class AttributesMenu extends Menu {
                 }
                 case 25 -> {
                     stats.add2Stat("arcane", amount);
-                    stats.add2Stat("maxoverhealth", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", amount));
                     stats.add2Stat("elementaldamage", amount);
                 }
                 case 31 -> {
@@ -98,7 +100,7 @@ public class AttributesMenu extends Menu {
                     if (stats.getArcane() < amount) amount = stats.getArcane();
 
                     stats.removeFromStat("arcane", amount);
-                    stats.removeFromStat("maxoverhealth", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", -amount));
                     stats.removeFromStat("elementaldamage", amount);
                 }
                 case 31 -> {
