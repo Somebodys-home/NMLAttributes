@@ -68,7 +68,7 @@ public class AttributesMenu extends Menu {
                 }
                 case 25 -> {
                     stats.add2Stat("arcane", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", amount));
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", amount));
                     stats.add2Stat("elementaldamage", amount);
                 }
                 case 31 -> {
@@ -100,7 +100,7 @@ public class AttributesMenu extends Menu {
                     if (stats.getArcane() < amount) amount = stats.getArcane();
 
                     stats.removeFromStat("arcane", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", -amount));
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", -amount));
                     stats.removeFromStat("elementaldamage", amount);
                 }
                 case 31 -> {
