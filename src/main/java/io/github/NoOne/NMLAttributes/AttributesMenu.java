@@ -27,7 +27,7 @@ public class AttributesMenu extends Menu {
         super(playerMenuUtility);
 
         player = playerMenuUtility.getOwner();
-        stats = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
+        stats = nmlAttributes.getProfileManager().getPlayerStats(player.getUniqueId());
         skills = nmlAttributes.getSkillSetManager().getSkillSet(player.getUniqueId()).getSkills();
 
         setItems(true);
