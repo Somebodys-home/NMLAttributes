@@ -21,7 +21,7 @@ public class AttributesListener implements Listener {
 
     @EventHandler
     public void levelingUpCombatSkill(SkillChangeEvent event) {
-        if (Objects.equals(event.getStat(), "combat")) {
+        if (event.getSkill().equals("combat")) {
            Player player = event.getPlayer();
            Stats stats =  profileManager.getPlayerProfile(event.getPlayer().getUniqueId()).getStats();
            int combatLvl = skillSetManager.getSkillSet(player.getUniqueId()).getSkills().getCombatLevel();
