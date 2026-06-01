@@ -2,6 +2,7 @@ package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.menuSystem.Menu;
 import io.github.NoOne.menuSystem.PlayerMenuUtility;
+import io.github.NoOne.nMLItems.ItemCreator;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import io.github.NoOne.nMLSkills.skillSystem.Skills;
@@ -9,19 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import java.util.ArrayList;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class AttributesMenu extends Menu {
     private Player player;
     private Stats stats;
     private Skills skills;
-    private ItemStack attributePoints;
-    private ItemStack vitality;
-    private ItemStack strength;
-    private ItemStack arcane;
-    private ItemStack deft;
 
     public AttributesMenu(NMLAttributes nmlAttributes, PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
@@ -29,8 +25,6 @@ public class AttributesMenu extends Menu {
         player = playerMenuUtility.getOwner();
         stats = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
         skills = nmlAttributes.getSkillSetManager().getSkillSet(player.getUniqueId()).getSkills();
-
-        setItems(true);
     }
 
     @Override
@@ -53,70 +47,70 @@ public class AttributesMenu extends Menu {
         if (event.getClick().isLeftClick() && attributePoints > 0) { // adding to attributes
             if (attributePoints < amount) amount = attributePoints;
 
-            stats.removeFromStat("attributepoints", amount);
-
             switch (event.getSlot()) {
-                case 13 -> {
-                    stats.add2Stat("vitality", amount);
-                    stats.add2Stat("maxenergy", amount);
-                    stats.changeMaxHealth(player, amount);
+                case 4 -> {
+                    stats.removeFromStat("attributepoints", amount);
+                    stats.add2Stat("constitution", amount);
+                    setMenuItems();
                 }
-                case 19 -> {
+                case 20 -> {
+                    stats.removeFromStat("attributepoints", amount);
                     stats.add2Stat("strength", amount);
-                    stats.add2Stat("physicaldamage", amount);
-                    stats.add2Stat("physicalresist", amount);
+                    setMenuItems();
                 }
-                case 25 -> {
-                    stats.add2Stat("arcane", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", amount));
-                    stats.add2Stat("elementaldamage", amount);
+                case 24 -> {
+                    stats.removeFromStat("attributepoints", amount);
+                    stats.add2Stat("intelligence", amount);
+                    setMenuItems();
                 }
-                case 31 -> {
-                    stats.add2Stat("deft", amount);
-                    stats.add2Stat("evasion", amount);
-                    stats.add2Stat("critchance", amount / 2.0);
-                    stats.add2Stat("critdamage", amount);
+                case 39 -> {
+                    stats.removeFromStat("attributepoints", amount);
+                    stats.add2Stat("dexterity", amount);
+                    setMenuItems();
+                }
+                case 41 -> {
+                    stats.removeFromStat("attributepoints", amount);
+                    stats.add2Stat("charisma", amount);
+                    setMenuItems();
                 }
             }
-        }
-        // removing from attributes
-        else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (skills.getCombatLevel() - 1 - amount)) {
+        } else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (skills.getCombatLevel() - 1 - amount)) { // removing from attributes
             switch (event.getSlot()) {
-                case 13 -> {
-                    if (stats.getVitality() < amount) amount = stats.getVitality();
+                case 4 -> {
+                    if (stats.getConstitution() < amount) amount = stats.getConstitution();
 
-                    stats.removeFromStat("vitality", amount);
-                    stats.removeFromStat("maxenergy", amount);
-                    stats.changeMaxHealth(player, -amount);
+                    stats.add2Stat("attributepoints", amount);
+                    stats.removeFromStat("constitution", amount);
+                    setMenuItems();
                 }
-                case 19 -> {
+                case 20 -> {
                     if (stats.getStrength() < amount) amount = stats.getStrength();
 
+                    stats.add2Stat("attributepoints", amount);
                     stats.removeFromStat("strength", amount);
-                    stats.removeFromStat("physicaldamage", amount);
-                    stats.removeFromStat("physicalresist", amount);
+                    setMenuItems();
                 }
-                case 25 -> {
-                    if (stats.getArcane() < amount) amount = stats.getArcane();
+                case 24 -> {
+                    if (stats.getIntelligence() < amount) amount = stats.getIntelligence();
 
-                    stats.removeFromStat("arcane", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", -amount));
-                    stats.removeFromStat("elementaldamage", amount);
+                    stats.add2Stat("attributepoints", amount);
+                    stats.removeFromStat("intelligence", amount);
+                    setMenuItems();
                 }
-                case 31 -> {
-                    if (stats.getDeft() < amount) amount = stats.getDeft();
+                case 39 -> {
+                    if (stats.getDexterity() < amount) amount = stats.getDexterity();
 
-                    stats.removeFromStat("deft", amount);
-                    stats.removeFromStat("evasion", amount);
-                    stats.removeFromStat("critchance", amount / 2.0);
-                    stats.removeFromStat("critdamage", amount);
+                    stats.add2Stat("attributepoints", amount);
+                    stats.removeFromStat("dexterity", amount);
+                    setMenuItems();
+                }
+                case 41 -> {
+                    stats.add2Stat("attributepoints", amount);
+                    stats.removeFromStat("charisma", amount);
+                    setMenuItems();
                 }
             }
-
-            stats.add2Stat("attributepoints", amount);
         }
-
-        setItems(false);
     }
 
     @Override
@@ -124,68 +118,67 @@ public class AttributesMenu extends Menu {
         event.setCancelled(true);
     }
 
-
     @Override
     public void setMenuItems() {
-        inventory.setItem(22, attributePoints);
-        inventory.setItem(13, vitality);
-        inventory.setItem(19, strength);
-        inventory.setItem(25, arcane);
-        inventory.setItem(31, deft);
-    }
-
-    private void setItems(boolean startingUpMenu) {
-        attributePoints = new ItemStack(Material.NETHER_STAR, Math.max(1, stats.getAttributePoints()));
-        ItemMeta attributeMeta = attributePoints.getItemMeta();
-        ArrayList<String> attributeLore = new ArrayList<>();
-        attributeMeta.setDisplayName("§b§lAttribute Points:§r§f " + stats.getAttributePoints());
-        attributeLore.add("§eLeft click an attribute to add a level to it");
-        attributeLore.add("§eRight click an attribute to remove a level from it");
-        attributeLore.add("§eShift click to 5x that change");
-        attributeMeta.setLore(attributeLore);
-        attributePoints.setItemMeta(attributeMeta);
-
-        vitality = new ItemStack(Material.APPLE, Math.max(1, stats.getVitality()));
-        ItemMeta vitalityMeta = vitality.getItemMeta();
-        ArrayList<String> vitalityLore = new ArrayList<>();
-        vitalityMeta.setDisplayName("§c§lVitality§c§f Lv. " + stats.getVitality());
-        vitalityLore.add("§7───── ❤ ─────");
-        vitalityLore.add("§e+ " + stats.getVitality() + " Health ❤");
-        vitalityLore.add("§e+ " + stats.getVitality() + " Max Energy ⚡");
-        vitalityMeta.setLore(vitalityLore);
-        vitality.setItemMeta(vitalityMeta);
-
-        strength = new ItemStack(Material.OAK_LOG, Math.max(1, stats.getStrength()));
-        ItemMeta strengthMeta = strength.getItemMeta();
-        ArrayList<String> strengthLore = new ArrayList<>();
-        strengthMeta.setDisplayName("§2§lStrength§c§f Lv. " + stats.getStrength());
-        strengthLore.add("§7────── ✊ ──────");
-        strengthLore.add("§e+ " + stats.getStrength() + " Physical Resist ⚔");
-        strengthLore.add("§e+ " + stats.getStrength() + " Physical Damage ⚔");
-        strengthMeta.setLore(strengthLore);
-        strength.setItemMeta(strengthMeta);
-
-        arcane = new ItemStack(Material.BOOK, Math.max(1, stats.getArcane()));
-        ItemMeta arcaneMeta = arcane.getItemMeta();
-        ArrayList<String> arcaneLore = new ArrayList<>();
-        arcaneMeta.setDisplayName("§d§lArcane§c§f Lv. " + stats.getArcane());
-        arcaneLore.add("§7────── ✦ ──────");
-        arcaneLore.add("§e+ " + stats.getArcane() + " Max Overhealth \uD83D\uDC99");
-        arcaneLore.add("§e+ " + stats.getArcane() + " Elemental Damage ✰");
-        arcaneMeta.setLore(arcaneLore);
-        arcane.setItemMeta(arcaneMeta);
-
-        deft = new ItemStack(Material.WIND_CHARGE, Math.max(1, stats.getDeft()));
-        ItemMeta deftMeta = deft.getItemMeta();
-        ArrayList<String> deftLore = new ArrayList<>();
-        deftMeta.setDisplayName("§7§lDeft§c§f Lv. " + stats.getDeft());
-        deftLore.add("§7───── \uD83D\uDCA8 ─────");
-        deftLore.add("§e+ " + stats.getDeft() + " Evasion \uD83D\uDCA8");
-        deftLore.add("§e+ " + stats.getDeft() / 2.0 + " Crit Chance ☠");
-        deftLore.add("§e+ " + stats.getDeft() + " Crit Damage ☠");
-        deftMeta.setLore(deftLore);
-        deft.setItemMeta(deftMeta);
-
-        if (!startingUpMenu) setMenuItems();
+        inventory.setItem(22, ItemCreator.createItem( // instructions item
+                Material.NETHER_STAR,
+                Math.max(1, stats.getAttributePoints()),
+                "§b§l§nAttribute Points:§r§f " + stats.getAttributePoints(),
+                List.of(
+                        "§7- Left click an attribute to add a level to it",
+                        "§7- Right click an attribute to remove a level from it",
+                        "§7- Shift click to §n5x§r§7 that change"
+                )
+        ));
+        inventory.setItem(4, ItemCreator.createItem( // CON
+                Material.APPLE,
+                Math.max(1, stats.getConstitution()),
+                "§fLv. " + stats.getConstitution() + " §c§lConstitution",
+                List.of(
+                        "§7───── ❤ ─────",
+                        "§e+ " + (stats.getConstitution() - 1) + " Health ❤",
+                        "§e+ " + (stats.getConstitution() - 1) + " Max. Energy ⚡"
+                )
+        ));
+        inventory.setItem(20, ItemCreator.createItem( // STR
+                Material.OAK_LOG,
+                Math.max(1, stats.getStrength()),
+                "§fLv. " + stats.getStrength() + " §2§lStrength",
+                List.of(
+                        "§7────── ✊ ──────",
+                        "§e+ " + (stats.getStrength() - 1) + " Physical Resist ⚔",
+                        "§e+ " + (stats.getStrength() - 1) + " Physical Damage ⚔"
+                )
+        ));
+        inventory.setItem(24, ItemCreator.createItem( // INT
+                Material.BOOK,
+                Math.max(1, stats.getIntelligence()),
+                "§fLv. " + stats.getIntelligence() + " §b§lIntelligence",
+                List.of(
+                        "§7────── ✦ ──────",
+                        "§e+ " + (stats.getIntelligence() - 1) + " Max. Overhealth \uD83D\uDC99",
+                        "§e+ " + (stats.getIntelligence() - 1) + " Elemental Damage ✰"
+                )
+        ));
+        inventory.setItem(39, ItemCreator.createItem( // DEX
+                Material.WIND_CHARGE,
+                Math.max(1, stats.getDexterity()),
+                "§fLv. " + stats.getDexterity() + " §6§lDexterity",
+                List.of(
+                        "§7───── \uD83D\uDCA8 ─────",
+                        "§e+ " + (stats.getDexterity() - 1) + " Evasion \uD83D\uDCA8",
+                        "§e+ " + new BigDecimal(String.valueOf((stats.getDexterity() - 1) / 2.0)).stripTrailingZeros().toPlainString() + "% Crit Chance ☠",
+                        "§e+ " + (stats.getDexterity() - 1) + " Crit Damage ☠"
+                )
+        ));
+        inventory.setItem(41, ItemCreator.createItem( // CHA
+                Material.PINK_GLAZED_TERRACOTTA,
+                Math.max(1, stats.getCharisma()),
+                "§fLv. " + stats.getCharisma() + " §d§lCharisma",
+                List.of(
+                        "§7───── \uD83C\uDFAD ─────",
+                        "§e(WIP)"
+                )
+        ));
     }
 }
