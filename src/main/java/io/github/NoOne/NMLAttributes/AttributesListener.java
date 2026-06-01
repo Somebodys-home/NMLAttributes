@@ -46,7 +46,7 @@ public class AttributesListener implements Listener {
             player.sendMessage("§c§lCOMBAT SKILL LEVEL UP!");
             player.sendMessage("§fLv. §r§8" + prevLevel + " -> §r§c" + newLevel + " §r§fFighter");
             player.sendMessage("");
-            player.sendMessage("§4§lREWARDS:");
+            player.sendMessage("§4§lREWARDS ->");
             player.sendMessage("§8" + stats.getAttributePoints() + " -> §r§f" + (stats.getAttributePoints() + change) + " §r§cAttribute Points §r§4(+" + change + ")");
             player.sendMessage("");
             player.sendMessage("§7§oUse attribute points in your ID");
@@ -80,19 +80,19 @@ public class AttributesListener implements Listener {
         double change = event.getChange();
 
         switch (event.getStat()) {
-            case "constitution": {
+            case "constitution" -> {
                 stats.add2Stat("maxenergy", change);
                 Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", change)); // to sync health
             }
-            case "strength": {
+            case "strength" -> {
                 stats.add2Stat("physicaldamage", change);
                 stats.add2Stat("physicalresist", change);
             }
-            case "intelligence": {
+            case "intelligence" -> {
                 Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", change)); // to sync overhealth
                 stats.add2Stat("elementaldamage", change);
             }
-            case "dexterity": {
+            case "dexterity" -> {
                 stats.add2Stat("evasion", change);
                 stats.add2Stat("critchance", change / 2.0);
                 stats.add2Stat("critdamage", change);

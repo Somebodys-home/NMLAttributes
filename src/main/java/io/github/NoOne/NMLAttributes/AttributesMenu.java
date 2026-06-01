@@ -17,14 +17,12 @@ import java.util.List;
 public class AttributesMenu extends Menu {
     private Player player;
     private Stats stats;
-    private Skills skills;
 
     public AttributesMenu(NMLAttributes nmlAttributes, PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
 
         player = playerMenuUtility.getOwner();
         stats = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
-        skills = nmlAttributes.getSkillSetManager().getSkillSet(player.getUniqueId()).getSkills();
     }
 
     @Override
@@ -45,69 +43,76 @@ public class AttributesMenu extends Menu {
         int attributePoints = stats.getAttributePoints();
 
         if (event.getClick().isLeftClick() && attributePoints > 0) { // adding to attributes
-            if (attributePoints < amount) amount = attributePoints;
+            amount = Math.min(amount, attributePoints);
 
             switch (event.getSlot()) {
                 case 4 -> {
                     stats.removeFromStat("attributepoints", amount);
-                    stats.add2Stat("constitution", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "constitution", amount));
                     setMenuItems();
                 }
                 case 20 -> {
                     stats.removeFromStat("attributepoints", amount);
-                    stats.add2Stat("strength", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "strength", amount));
                     setMenuItems();
                 }
                 case 24 -> {
                     stats.removeFromStat("attributepoints", amount);
-                    stats.add2Stat("intelligence", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "intelligence", amount));
                     setMenuItems();
                 }
                 case 39 -> {
                     stats.removeFromStat("attributepoints", amount);
-                    stats.add2Stat("dexterity", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "dexterity", amount));
                     setMenuItems();
                 }
                 case 41 -> {
                     stats.removeFromStat("attributepoints", amount);
-                    stats.add2Stat("charisma", amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "charisma", amount));
                     setMenuItems();
                 }
             }
-        } else if (event.getClick().isRightClick() && stats.getAttributePoints() <= (skills.getCombatLevel() - 1 - amount)) { // removing from attributes
+        } else if (event.getClick().isRightClick()) { // removing from attributes
             switch (event.getSlot()) {
                 case 4 -> {
-                    if (stats.getConstitution() < amount) amount = stats.getConstitution();
-
-                    stats.add2Stat("attributepoints", amount);
-                    stats.removeFromStat("constitution", amount);
-                    setMenuItems();
+                    if (stats.getConstitution() <= 1) {
+                        amount = Math.min(amount, stats.getConstitution() - 1);
+                        stats.add2Stat("attributepoints", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "constitution", -amount));
+                        setMenuItems();
+                    }
                 }
                 case 20 -> {
-                    if (stats.getStrength() < amount) amount = stats.getStrength();
-
-                    stats.add2Stat("attributepoints", amount);
-                    stats.removeFromStat("strength", amount);
-                    setMenuItems();
+                    if (stats.getStrength() <= 1) {
+                        amount = Math.min(amount, stats.getStrength() - 1);
+                        stats.add2Stat("attributepoints", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "strength", -amount));
+                        setMenuItems();
+                    }
                 }
                 case 24 -> {
-                    if (stats.getIntelligence() < amount) amount = stats.getIntelligence();
-
-                    stats.add2Stat("attributepoints", amount);
-                    stats.removeFromStat("intelligence", amount);
-                    setMenuItems();
+                    if (stats.getIntelligence() > 1) {
+                        amount = Math.min(amount, stats.getIntelligence() - 1);
+                        stats.add2Stat("attributepoints", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "intelligence", -amount));
+                        setMenuItems();
+                    }
                 }
                 case 39 -> {
-                    if (stats.getDexterity() < amount) amount = stats.getDexterity();
-
-                    stats.add2Stat("attributepoints", amount);
-                    stats.removeFromStat("dexterity", amount);
-                    setMenuItems();
+                    if (stats.getDexterity() > 1) {
+                        amount = Math.min(amount, stats.getDexterity() - 1);
+                        stats.add2Stat("attributepoints", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "dexterity", -amount));
+                        setMenuItems();
+                    }
                 }
                 case 41 -> {
-                    stats.add2Stat("attributepoints", amount);
-                    stats.removeFromStat("charisma", amount);
-                    setMenuItems();
+                    if (stats.getCharisma() > 1) {
+                        amount = Math.min(amount, stats.getCharisma() - 1);
+                        stats.add2Stat("attributepoints", amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "charisma", -amount));
+                        setMenuItems();
+                    }
                 }
             }
         }
