@@ -81,15 +81,15 @@ public class AttributesListener implements Listener {
 
         switch (event.getStat()) {
             case "constitution" -> {
-                stats.add2Stat("maxenergy", change);
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", change)); // to sync health
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", change)); // to sync
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxenergy", change)); // to sync
             }
             case "strength" -> {
                 stats.add2Stat("physicaldamage", change);
                 stats.add2Stat("physicalresist", change);
             }
             case "intelligence" -> {
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", change)); // to sync overhealth
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", change)); // to sync
                 stats.add2Stat("elementaldamage", change);
             }
             case "dexterity" -> {
