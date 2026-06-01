@@ -75,7 +75,7 @@ public class AttributesMenu extends Menu {
         } else if (event.getClick().isRightClick()) { // removing from attributes
             switch (event.getSlot()) {
                 case 4 -> {
-                    if (stats.getConstitution() <= 1) {
+                    if (stats.getConstitution() > 1) {
                         amount = Math.min(amount, stats.getConstitution() - 1);
                         stats.add2Stat("attributepoints", amount);
                         Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "constitution", -amount));
@@ -83,7 +83,7 @@ public class AttributesMenu extends Menu {
                     }
                 }
                 case 20 -> {
-                    if (stats.getStrength() <= 1) {
+                    if (stats.getStrength() > 1) {
                         amount = Math.min(amount, stats.getStrength() - 1);
                         stats.add2Stat("attributepoints", amount);
                         Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "strength", -amount));
