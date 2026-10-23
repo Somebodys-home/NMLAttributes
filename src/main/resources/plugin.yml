@@ -1,7 +1,9 @@
 name: NMLAttributes
-version: '1.0'
+version: '${version}'
+
 main: io.github.NoOne.NMLAttributes.NMLAttributes
-api-version: '26.1'
+api-version: '26.3'
+load: POSTWORLD
 depend:
   - NMLPlayerStats
   - NMLSkills
