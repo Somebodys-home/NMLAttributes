@@ -89,12 +89,12 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>MenuSystem</artifactId>
-            <version>d4d4a012c9</version>
+            <version>2874d1bb00</version>
         </dependency>
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLPlayerStats</artifactId>
-            <version>562ce3e4fc</version>
+            <version>610edb810d</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>com.github.Somebodys-home</groupId>
             <artifactId>NMLItems</artifactId>
-            <version>2cd1b73316</version>
+            <version>525fcfeaff</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

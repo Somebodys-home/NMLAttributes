@@ -1,4 +1,5 @@
 io\github\NoOne\NMLAttributes\AttributesCommand.class
 io\github\NoOne\NMLAttributes\AttributesMenu.class
 io\github\NoOne\NMLAttributes\NMLAttributes.class
+io\github\NoOne\NMLAttributes\AttributesListener$1.class
 io\github\NoOne\NMLAttributes\AttributesListener.class

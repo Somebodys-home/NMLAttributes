@@ -1,6 +1,7 @@
 package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import io.github.NoOne.nMLSkills.skillSetSystem.SkillSetManager;
@@ -34,7 +35,7 @@ public class AttributesListener implements Listener {
         if (event.getChange() > 0 && event.getSkill().equals("combat")) {
             Player player = event.getPlayer();
             Skills skills = skillSetManager.getSkillSet(player.getUniqueId()).getSkills();
-            Stats stats = profileManager.getPlayerProfile(player.getUniqueId()).getStats();
+            Stats stats = profileManager.getStats(player.getUniqueId());
             int change = (int) event.getChange();
             int prevLevel = Math.max(skills.getCombatLevel() - change, 1);
             int newLevel = skills.getCombatLevel();
@@ -47,13 +48,13 @@ public class AttributesListener implements Listener {
             player.sendMessage("§fLv. §r§8" + prevLevel + " -> §r§c" + newLevel + " §r§fFighter");
             player.sendMessage("");
             player.sendMessage("§4§lREWARDS ->");
-            player.sendMessage("§8" + stats.getAttributePoints() + " -> §r§f" + (stats.getAttributePoints() + change) + " §r§cAttribute Points §r§4(+" + change + ")");
+            player.sendMessage("§8" + stats.getStatValue(PlayerStat.ATTRIBUTE_POINTS) + " -> §r§f" + (stats.getStatValue(PlayerStat.ATTRIBUTE_POINTS) + change) + " §r§cAttribute Points §r§4(+" + change + ")");
             player.sendMessage("");
             player.sendMessage("§7§oUse attribute points in your ID");
             player.sendMessage("§7§oor in the §n/levelup§r§7§o menu");
             player.sendMessage("§c§l---------------------------");
 
-            stats.add2Stat("attributepoints", change);
+            stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, change);
 
             // firework
             Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation().add(0, 2, 0), EntityType.FIREWORK_ROCKET);
@@ -76,26 +77,26 @@ public class AttributesListener implements Listener {
     @EventHandler
     public void onAttributeChange(StatChangeEvent event) {
         Player player = event.getPlayer();
-        Stats stats = profileManager.getPlayerProfile(player.getUniqueId()).getStats();
+        Stats stats = profileManager.getStats(player.getUniqueId());
         double change = event.getChange();
 
         switch (event.getStat()) {
-            case "constitution" -> {
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxhealth", change)); // to sync
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxenergy", change)); // to sync
+            case CONSTITUTION -> {
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.MAX_HEALTH, change)); // to sync
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.MAX_ENERGY, change)); // to sync
             }
-            case "strength" -> {
-                stats.add2Stat("physicaldamage", change);
-                stats.add2Stat("physicalresist", change);
+            case STRENGTH -> {
+                stats.addToStat(PlayerStat.PHYSICAL_DAMAGE, change);
+                stats.addToStat(PlayerStat.PHYSICAL_RESIST, change);
             }
-            case "intelligence" -> {
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "maxoverhealth", change)); // to sync
-                stats.add2Stat("elementaldamage", change);
+            case INTELLIGENCE -> {
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.MAX_OVERHEALTH, change)); // to sync
+                stats.addToStat(PlayerStat.ELEMENTAL_DAMAGE, change);
             }
-            case "dexterity" -> {
-                stats.add2Stat("evasion", change);
-                stats.add2Stat("critchance", change / 2.0);
-                stats.add2Stat("critdamage", change);
+            case DEXTERITY -> {
+                stats.addToStat(PlayerStat.EVASION, change);
+                stats.addToStat(PlayerStat.CRIT_CHANCE, change / 2.0);
+                stats.addToStat(PlayerStat.CRIT_DAMAGE, change);
             }
         }
     }

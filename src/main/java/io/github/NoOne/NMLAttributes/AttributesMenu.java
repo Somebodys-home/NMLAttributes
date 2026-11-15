@@ -1,11 +1,10 @@
 package io.github.NoOne.NMLAttributes;
 
 import io.github.NoOne.menuSystem.Menu;
-import io.github.NoOne.menuSystem.PlayerMenuUtility;
 import io.github.NoOne.nMLItems.ItemCreator;
+import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
-import io.github.NoOne.nMLSkills.skillSystem.Skills;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,14 +14,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class AttributesMenu extends Menu {
-    private Player player;
     private Stats stats;
 
-    public AttributesMenu(NMLAttributes nmlAttributes, PlayerMenuUtility playerMenuUtility) {
-        super(playerMenuUtility);
+    public AttributesMenu(Player player, NMLAttributes nmlAttributes) {
+        super(player);
 
-        player = playerMenuUtility.getOwner();
-        stats = nmlAttributes.getProfileManager().getPlayerProfile(player.getUniqueId()).getStats();
+        stats = nmlAttributes.getProfileManager().getStats(player.getUniqueId());
     }
 
     @Override
@@ -40,77 +37,77 @@ public class AttributesMenu extends Menu {
         event.setCancelled(true);
 
         int amount = event.isShiftClick() ? 5 : 1;
-        int attributePoints = stats.getAttributePoints();
+        int attributePoints = stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS);
 
         if (event.getClick().isLeftClick() && attributePoints > 0) { // adding to attributes
             amount = Math.min(amount, attributePoints);
 
             switch (event.getSlot()) {
                 case 4 -> {
-                    stats.removeFromStat("attributepoints", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "constitution", amount));
+                    stats.removeFromStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.CONSTITUTION, amount));
                     setMenuItems();
                 }
                 case 20 -> {
-                    stats.removeFromStat("attributepoints", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "strength", amount));
+                    stats.removeFromStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.STRENGTH, amount));
                     setMenuItems();
                 }
                 case 24 -> {
-                    stats.removeFromStat("attributepoints", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "intelligence", amount));
+                    stats.removeFromStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.INTELLIGENCE, amount));
                     setMenuItems();
                 }
                 case 39 -> {
-                    stats.removeFromStat("attributepoints", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "dexterity", amount));
+                    stats.removeFromStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.DEXTERITY, amount));
                     setMenuItems();
                 }
                 case 41 -> {
-                    stats.removeFromStat("attributepoints", amount);
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "charisma", amount));
+                    stats.removeFromStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.CHARISMA, amount));
                     setMenuItems();
                 }
             }
         } else if (event.getClick().isRightClick()) { // removing from attributes
             switch (event.getSlot()) {
                 case 4 -> {
-                    if (stats.getConstitution() > 1) {
-                        amount = Math.min(amount, stats.getConstitution() - 1);
-                        stats.add2Stat("attributepoints", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "constitution", -amount));
+                    if (stats.getIntStatValue(PlayerStat.CONSTITUTION) > 1) {
+                        amount = Math.min(amount, stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1);
+                        stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.CONSTITUTION, -amount));
                         setMenuItems();
                     }
                 }
                 case 20 -> {
-                    if (stats.getStrength() > 1) {
-                        amount = Math.min(amount, stats.getStrength() - 1);
-                        stats.add2Stat("attributepoints", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "strength", -amount));
+                    if (stats.getIntStatValue(PlayerStat.STRENGTH) > 1) {
+                        amount = Math.min(amount, stats.getIntStatValue(PlayerStat.STRENGTH) - 1);
+                        stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.STRENGTH, -amount));
                         setMenuItems();
                     }
                 }
                 case 24 -> {
-                    if (stats.getIntelligence() > 1) {
-                        amount = Math.min(amount, stats.getIntelligence() - 1);
-                        stats.add2Stat("attributepoints", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "intelligence", -amount));
+                    if (stats.getIntStatValue(PlayerStat.INTELLIGENCE) > 1) {
+                        amount = Math.min(amount, stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1);
+                        stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.INTELLIGENCE, -amount));
                         setMenuItems();
                     }
                 }
                 case 39 -> {
-                    if (stats.getDexterity() > 1) {
-                        amount = Math.min(amount, stats.getDexterity() - 1);
-                        stats.add2Stat("attributepoints", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "dexterity", -amount));
+                    if (stats.getIntStatValue(PlayerStat.DEXTERITY) > 1) {
+                        amount = Math.min(amount, stats.getIntStatValue(PlayerStat.DEXTERITY) - 1);
+                        stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.INTELLIGENCE, -amount));
                         setMenuItems();
                     }
                 }
                 case 41 -> {
-                    if (stats.getCharisma() > 1) {
-                        amount = Math.min(amount, stats.getCharisma() - 1);
-                        stats.add2Stat("attributepoints", amount);
-                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "charisma", -amount));
+                    if (stats.getIntStatValue(PlayerStat.CHARISMA) > 1) {
+                        amount = Math.min(amount, stats.getIntStatValue(PlayerStat.CHARISMA) - 1);
+                        stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, amount);
+                        Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.CHARISMA, -amount));
                         setMenuItems();
                     }
                 }
@@ -127,8 +124,8 @@ public class AttributesMenu extends Menu {
     public void setMenuItems() {
         inventory.setItem(22, ItemCreator.createItem( // instructions item
                 Material.NETHER_STAR,
-                Math.max(1, stats.getAttributePoints()),
-                "§b§l§nAttribute Points:§r§f " + stats.getAttributePoints(),
+                Math.max(1, stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS)),
+                "§b§l§nAttribute Points:§r§f " + stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS),
                 List.of(
                         "§7- Left click an attribute to add a level to it",
                         "§7- Right click an attribute to remove a level from it",
@@ -137,49 +134,49 @@ public class AttributesMenu extends Menu {
         ));
         inventory.setItem(4, ItemCreator.createItem( // CON
                 Material.APPLE,
-                Math.max(1, stats.getConstitution()),
-                "§fLv. " + stats.getConstitution() + " §c§lConstitution",
+                Math.max(1, stats.getIntStatValue(PlayerStat.CONSTITUTION)),
+                "§fLv. " + stats.getIntStatValue(PlayerStat.CONSTITUTION) + " §c§lConstitution",
                 List.of(
                         "§7───── ❤ ─────",
-                        "§e+ " + (stats.getConstitution() - 1) + " Health ❤",
-                        "§e+ " + (stats.getConstitution() - 1) + " Max. Energy ⚡"
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1) + " Health ❤",
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1) + " Max. Energy ⚡"
                 )
         ));
         inventory.setItem(20, ItemCreator.createItem( // STR
                 Material.OAK_LOG,
-                Math.max(1, stats.getStrength()),
-                "§fLv. " + stats.getStrength() + " §2§lStrength",
+                Math.max(1, stats.getIntStatValue(PlayerStat.STRENGTH)),
+                "§fLv. " + stats.getIntStatValue(PlayerStat.STRENGTH) + " §2§lStrength",
                 List.of(
                         "§7────── ✊ ──────",
-                        "§e+ " + (stats.getStrength() - 1) + " Physical Resist ⚔",
-                        "§e+ " + (stats.getStrength() - 1) + " Physical Damage ⚔"
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.STRENGTH) - 1) + " Physical Resist ⚔",
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.STRENGTH) - 1) + " Physical Damage ⚔"
                 )
         ));
         inventory.setItem(24, ItemCreator.createItem( // INT
                 Material.BOOK,
-                Math.max(1, stats.getIntelligence()),
-                "§fLv. " + stats.getIntelligence() + " §b§lIntelligence",
+                Math.max(1, stats.getIntStatValue(PlayerStat.INTELLIGENCE)),
+                "§fLv. " + stats.getIntStatValue(PlayerStat.INTELLIGENCE) + " §b§lIntelligence",
                 List.of(
                         "§7────── ✦ ──────",
-                        "§e+ " + (stats.getIntelligence() - 1) + " Max. Overhealth \uD83D\uDC99",
-                        "§e+ " + (stats.getIntelligence() - 1) + " Elemental Damage ✰"
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1) + " Max. Overhealth \uD83D\uDC99",
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1) + " Elemental Damage ✰"
                 )
         ));
         inventory.setItem(39, ItemCreator.createItem( // DEX
                 Material.WIND_CHARGE,
-                Math.max(1, stats.getDexterity()),
-                "§fLv. " + stats.getDexterity() + " §6§lDexterity",
+                Math.max(1, stats.getIntStatValue(PlayerStat.DEXTERITY)),
+                "§fLv. " + stats.getIntStatValue(PlayerStat.DEXTERITY) + " §6§lDexterity",
                 List.of(
                         "§7───── \uD83D\uDCA8 ─────",
-                        "§e+ " + (stats.getDexterity() - 1) + " Evasion \uD83D\uDCA8",
-                        "§e+ " + new BigDecimal(String.valueOf((stats.getDexterity() - 1) / 2.0)).stripTrailingZeros().toPlainString() + "% Crit Chance ☠",
-                        "§e+ " + (stats.getDexterity() - 1) + " Crit Damage ☠"
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.DEXTERITY) - 1) + " Evasion \uD83D\uDCA8",
+                        "§e+ " + new BigDecimal(String.valueOf((stats.getIntStatValue(PlayerStat.DEXTERITY) - 1) / 2.0)).stripTrailingZeros().toPlainString() + "% Crit Chance ☠",
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.DEXTERITY) - 1) + " Crit Damage ☠"
                 )
         ));
         inventory.setItem(41, ItemCreator.createItem( // CHA
                 Material.PINK_GLAZED_TERRACOTTA,
-                Math.max(1, stats.getCharisma()),
-                "§fLv. " + stats.getCharisma() + " §d§lCharisma",
+                Math.max(1, stats.getIntStatValue(PlayerStat.CHARISMA)),
+                "§fLv. " + stats.getIntStatValue(PlayerStat.CHARISMA) + " §d§lCharisma",
                 List.of(
                         "§7───── \uD83C\uDFAD ─────",
                         "§e(WIP)"
