@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/NMLAttributes.iml" filepath="$PROJECT_DIR$/.idea/NMLAttributes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NMLAttributes.iml" filepath="$PROJECT_DIR$/NMLAttributes.iml" />
     </modules>
   </component>
 </project>

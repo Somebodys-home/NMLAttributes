@@ -1,13 +1,14 @@
-name: NMLAttributes
+name: NMLevelUp
 version: '${version}'
 
-main: io.github.NoOne.NMLAttributes.NMLAttributes
+main: io.github.NoOne.NMLevelUp.NMLevelUp
 api-version: '26.3'
 load: POSTWORLD
 depend:
   - NMLPlayerStats
   - NMLSkills
+  - NMLItems
 commands:
   levelUp:
-    description: opens the level up (attributes) menu
+    description: opens the level up menu
     usage: /<command>

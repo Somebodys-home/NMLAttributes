@@ -1,5 +1,5 @@
-io\github\NoOne\NMLAttributes\AttributesCommand.class
-io\github\NoOne\NMLAttributes\AttributesMenu.class
-io\github\NoOne\NMLAttributes\NMLAttributes.class
-io\github\NoOne\NMLAttributes\AttributesListener$1.class
-io\github\NoOne\NMLAttributes\AttributesListener.class
+io\github\NoOne\NMLevelUp\LevelUpListener.class
+io\github\NoOne\NMLevelUp\NMLevelUp.class
+io\github\NoOne\NMLevelUp\LevelUpCommand.class
+io\github\NoOne\NMLevelUp\LevelUpMenu.class
+io\github\NoOne\NMLevelUp\LevelUpListener$1.class

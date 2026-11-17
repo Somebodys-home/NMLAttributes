@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.NoOne</groupId>
-    <artifactId>NMLAttributes</artifactId>
+    <artifactId>NMLevelUp</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>NMLAttributes</name>
+    <name>NMLevelUp</name>
 
     <properties>
         <java.version>25</java.version>

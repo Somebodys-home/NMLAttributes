@@ -1,4 +1,4 @@
-package io.github.NoOne.NMLAttributes;
+package io.github.NoOne.NMLevelUp;
 
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
@@ -19,15 +19,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class AttributesListener implements Listener {
-    private NMLAttributes nmlAttributes;
+public class LevelUpListener implements Listener {
+    private NMLevelUp nmLevelUp;
     private ProfileManager profileManager;
     private SkillSetManager skillSetManager;
 
-    public AttributesListener(NMLAttributes nmlAttributes) {
-        this.nmlAttributes = nmlAttributes;
-        profileManager = nmlAttributes.getProfileManager();
-        skillSetManager = nmlAttributes.getSkillSetManager();
+    public LevelUpListener(NMLevelUp nmLevelUp) {
+        this.nmLevelUp = nmLevelUp;
+        profileManager = nmLevelUp.getProfileManager();
+        skillSetManager = nmLevelUp.getSkillSetManager();
     }
 
     @EventHandler
@@ -37,8 +37,11 @@ public class AttributesListener implements Listener {
             Skills skills = skillSetManager.getSkillSet(player.getUniqueId()).getSkills();
             Stats stats = profileManager.getStats(player.getUniqueId());
             int change = (int) event.getChange();
+            int healthChange = 5 * change;
             int prevLevel = Math.max(skills.getCombatLevel() - change, 1);
             int newLevel = skills.getCombatLevel();
+            int attributePoints = stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS);
+            int maxHealth = (int) stats.getStatValue(PlayerStat.MAX_HEALTH);
 
             player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
 
@@ -47,14 +50,16 @@ public class AttributesListener implements Listener {
             player.sendMessage("§c§lCOMBAT SKILL LEVEL UP!");
             player.sendMessage("§fLv. §r§8" + prevLevel + " -> §r§c" + newLevel + " §r§fFighter");
             player.sendMessage("");
-            player.sendMessage("§4§lREWARDS ->");
-            player.sendMessage("§8" + stats.getStatValue(PlayerStat.ATTRIBUTE_POINTS) + " -> §r§f" + (stats.getStatValue(PlayerStat.ATTRIBUTE_POINTS) + change) + " §r§cAttribute Points §r§4(+" + change + ")");
+            player.sendMessage("§4§lREWARDS:");
+            player.sendMessage("§8" + attributePoints + " -> §r§f" + (attributePoints + change) + " §r§cAttribute Points §r§4(+" + change + ")");
+            player.sendMessage("§8" + maxHealth + " -> §r§f" + (maxHealth + healthChange) + " §r§cMax Health §r§4(+" + healthChange + ")");
             player.sendMessage("");
             player.sendMessage("§7§oUse attribute points in your ID");
             player.sendMessage("§7§oor in the §n/levelup§r§7§o menu");
             player.sendMessage("§c§l---------------------------");
 
             stats.addToStat(PlayerStat.ATTRIBUTE_POINTS, change);
+            Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.MAX_HEALTH, healthChange));
 
             // firework
             Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation().add(0, 2, 0), EntityType.FIREWORK_ROCKET);
@@ -69,13 +74,13 @@ public class AttributesListener implements Listener {
                     .build());
             fireworkMeta.setPower(0);
             firework.setFireworkMeta(fireworkMeta);
-            firework.setMetadata("no_damage", new FixedMetadataValue(nmlAttributes, true));
+            firework.setMetadata("no_damage", new FixedMetadataValue(nmLevelUp, true));
             firework.detonate();
         }
     }
 
     @EventHandler
-    public void onAttributeChange(StatChangeEvent event) {
+    public void onStatChange(StatChangeEvent event) {
         Player player = event.getPlayer();
         Stats stats = profileManager.getStats(player.getUniqueId());
         double change = event.getChange();

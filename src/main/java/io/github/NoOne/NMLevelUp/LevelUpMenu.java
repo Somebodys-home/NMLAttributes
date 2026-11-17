@@ -1,4 +1,4 @@
-package io.github.NoOne.NMLAttributes;
+package io.github.NoOne.NMLevelUp;
 
 import io.github.NoOne.menuSystem.Menu;
 import io.github.NoOne.nMLItems.ItemCreator;
@@ -13,13 +13,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class AttributesMenu extends Menu {
+public class LevelUpMenu extends Menu {
     private Stats stats;
 
-    public AttributesMenu(Player player, NMLAttributes nmlAttributes) {
+    public LevelUpMenu(Player player, NMLevelUp nmLevelUp) {
         super(player);
 
-        stats = nmlAttributes.getProfileManager().getStats(player.getUniqueId());
+        stats = nmLevelUp.getProfileManager().getStats(player.getUniqueId());
     }
 
     @Override
@@ -122,6 +122,10 @@ public class AttributesMenu extends Menu {
 
     @Override
     public void setMenuItems() {
+        for (int i : getBorderSlots()) {
+            inventory.setItem(i, ItemCreator.createMenuBorder());
+        }
+
         inventory.setItem(22, ItemCreator.createItem( // instructions item
                 Material.NETHER_STAR,
                 Math.max(1, stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS)),
@@ -139,7 +143,7 @@ public class AttributesMenu extends Menu {
                 List.of(
                         "§7───── ❤ ─────",
                         "§e+ " + (stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1) + " Health ❤",
-                        "§e+ " + (stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1) + " Max. Energy ⚡"
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.CONSTITUTION) - 1) + " Max Energy ⚡"
                 )
         ));
         inventory.setItem(20, ItemCreator.createItem( // STR
@@ -158,7 +162,7 @@ public class AttributesMenu extends Menu {
                 "§fLv. " + stats.getIntStatValue(PlayerStat.INTELLIGENCE) + " §b§lIntelligence",
                 List.of(
                         "§7────── ✦ ──────",
-                        "§e+ " + (stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1) + " Max. Overhealth \uD83D\uDC99",
+                        "§e+ " + (stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1) + " Max Overhealth \uD83D\uDC99",
                         "§e+ " + (stats.getIntStatValue(PlayerStat.INTELLIGENCE) - 1) + " Elemental Damage ✰"
                 )
         ));
@@ -182,5 +186,10 @@ public class AttributesMenu extends Menu {
                         "§e(WIP)"
                 )
         ));
+        inventory.setItem(3, null);
+        inventory.setItem(5, null);
+        inventory.setItem(38, null);
+        inventory.setItem(40, null);
+        inventory.setItem(42, null);
     }
 }

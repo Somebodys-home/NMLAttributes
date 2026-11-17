@@ -1,21 +1,21 @@
-package io.github.NoOne.NMLAttributes;
+package io.github.NoOne.NMLevelUp;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AttributesCommand implements CommandExecutor {
-    private NMLAttributes nmlAttributes;
+public class LevelUpCommand implements CommandExecutor {
+    private NMLevelUp nmLevelUp;
 
-    public AttributesCommand(NMLAttributes nmlAttributes) {
-        this.nmlAttributes = nmlAttributes;
+    public LevelUpCommand(NMLevelUp nmLevelUp) {
+        this.nmLevelUp = nmLevelUp;
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player player) {
-            new AttributesMenu(player, nmlAttributes).open();
+            new LevelUpMenu(player, nmLevelUp).open();
         }
 
         return true;
