@@ -4,7 +4,8 @@ import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
-import io.github.NoOne.nMLSkills.skillSetSystem.SkillSetManager;
+import io.github.NoOne.nMLSkills.saveSkillsSystem.SaveSkillsManager;
+import io.github.NoOne.nMLSkills.skillSystem.Skill;
 import io.github.NoOne.nMLSkills.skillSystem.SkillChangeEvent;
 import io.github.NoOne.nMLSkills.skillSystem.Skills;
 import org.bukkit.Bukkit;
@@ -22,24 +23,24 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class LevelUpListener implements Listener {
     private NMLevelUp nmLevelUp;
     private ProfileManager profileManager;
-    private SkillSetManager skillSetManager;
+    private SaveSkillsManager saveSkillsManager;
 
     public LevelUpListener(NMLevelUp nmLevelUp) {
         this.nmLevelUp = nmLevelUp;
         profileManager = nmLevelUp.getProfileManager();
-        skillSetManager = nmLevelUp.getSkillSetManager();
+        saveSkillsManager = nmLevelUp.getSaveSkillsManager();
     }
 
     @EventHandler
     public void onCombatSkillLevelUp(SkillChangeEvent event) {
-        if (event.getChange() > 0 && event.getSkill().equals("combat")) {
+        if (event.getChange() > 0 && event.getSkill() == Skill.COMBAT) {
             Player player = event.getPlayer();
-            Skills skills = skillSetManager.getSkillSet(player.getUniqueId()).getSkills();
+            Skills skills = saveSkillsManager.getSkills(player.getUniqueId());
             Stats stats = profileManager.getStats(player.getUniqueId());
             int change = (int) event.getChange();
             int healthChange = 5 * change;
-            int prevLevel = Math.max(skills.getCombatLevel() - change, 1);
-            int newLevel = skills.getCombatLevel();
+            int prevLevel = Math.max(skills.getSkillLevel(Skill.COMBAT) - change, 1);
+            int newLevel = skills.getSkillLevel(Skill.COMBAT);
             int attributePoints = stats.getIntStatValue(PlayerStat.ATTRIBUTE_POINTS);
             int maxHealth = (int) stats.getStatValue(PlayerStat.MAX_HEALTH);
 
