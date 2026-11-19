@@ -33,11 +33,11 @@ public class LevelUpListener implements Listener {
 
     @EventHandler
     public void onCombatSkillLevelUp(SkillChangeEvent event) {
-        if (event.getChange() > 0 && event.getSkill() == Skill.COMBAT) {
+        if (event.getChange() > 0 && event.getSkill() == Skill.COMBAT && !event.isExpChange()) {
             Player player = event.getPlayer();
             Skills skills = saveSkillsManager.getSkills(player.getUniqueId());
             Stats stats = profileManager.getStats(player.getUniqueId());
-            int change = (int) event.getChange();
+            int change = event.getChange();
             int healthChange = 5 * change;
             int prevLevel = Math.max(skills.getSkillLevel(Skill.COMBAT) - change, 1);
             int newLevel = skills.getSkillLevel(Skill.COMBAT);
