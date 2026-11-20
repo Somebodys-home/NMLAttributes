@@ -19,7 +19,7 @@ public class LevelUpMenu extends Menu {
     public LevelUpMenu(Player player, NMLevelUp nmLevelUp) {
         super(player);
 
-        stats = nmLevelUp.getProfileManager().getStats(player.getUniqueId());
+        stats = nmLevelUp.getStatConfigManager().getStats(player.getUniqueId());
     }
 
     @Override

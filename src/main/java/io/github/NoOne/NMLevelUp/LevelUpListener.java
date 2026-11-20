@@ -1,6 +1,6 @@
 package io.github.NoOne.NMLevelUp;
 
-import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.StatConfigManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
@@ -22,12 +22,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class LevelUpListener implements Listener {
     private NMLevelUp nmLevelUp;
-    private ProfileManager profileManager;
+    private StatConfigManager statConfigManager;
     private SaveSkillsManager saveSkillsManager;
 
     public LevelUpListener(NMLevelUp nmLevelUp) {
         this.nmLevelUp = nmLevelUp;
-        profileManager = nmLevelUp.getProfileManager();
+        statConfigManager = nmLevelUp.getStatConfigManager();
         saveSkillsManager = nmLevelUp.getSaveSkillsManager();
     }
 
@@ -36,7 +36,7 @@ public class LevelUpListener implements Listener {
         if (event.getChange() > 0 && event.getSkill() == Skill.COMBAT && !event.isExpChange()) {
             Player player = event.getPlayer();
             Skills skills = saveSkillsManager.getSkills(player.getUniqueId());
-            Stats stats = profileManager.getStats(player.getUniqueId());
+            Stats stats = statConfigManager.getStats(player.getUniqueId());
             int change = event.getChange();
             int healthChange = 5 * change;
             int prevLevel = Math.max(skills.getSkillLevel(Skill.COMBAT) - change, 1);
@@ -83,7 +83,7 @@ public class LevelUpListener implements Listener {
     @EventHandler
     public void onStatChange(StatChangeEvent event) {
         Player player = event.getPlayer();
-        Stats stats = profileManager.getStats(player.getUniqueId());
+        Stats stats = statConfigManager.getStats(player.getUniqueId());
         double change = event.getChange();
 
         switch (event.getStat()) {
